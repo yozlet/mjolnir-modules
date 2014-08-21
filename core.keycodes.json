@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "license": "MIT",
+  "minosx": "10.8",
+  "author": "Steven Degutis",
+  "website": "https://github.com/mjolnir-io/mjolnir.core.keycodes",
+  "tarfile": "https://github.com/mjolnir-io/mjolnir.core.keycodes/releases/download/0.1/core.keycodes.tgz",
+  "sha": "c39b480b4d3dc32df4ceea2d59056f9acf5bdaa5",
+  "description": "Functionality for converting between key-strings and key-codes.",
+  "deps": [
+
+  ],
+  "changelog": "0.1: Initial release."
+}

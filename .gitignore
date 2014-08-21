@@ -1,0 +1,7 @@
+*.o
+*.so
+/docs.json
+/docs.in.sql
+/docs.out.sql
+/docs.html.d
+*.tgz
