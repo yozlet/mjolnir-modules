@@ -163,12 +163,35 @@ int keycodes_cachemap(lua_State* L) {
     return 1;
 }
 
+
+static void register_for_input_source_changes(lua_State* L) {
+    static id observer;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        observer =
+        [[NSNotificationCenter defaultCenter]
+         addObserverForName:NSTextInputContextKeyboardSelectionDidChangeNotification
+         object:nil
+         queue:nil
+         usingBlock:^(NSNotification *note) {
+             lua_getglobal(L, "core");
+             lua_getglobal(L, "keycodes");
+             lua_getfield(L, -1, "_inputsourcechanged");
+             if (lua_pcall(L, 0, 0, 0))
+                 hydra_handle_error(L);
+             lua_pop(L, 2);
+         }];
+    });
+}
+
 static const luaL_Reg keycodeslib[] = {
     {"cachemap", keycodes_cachemap},
     {}
 };
 
 int luaopen_ext_core_keycodes_internal(lua_State* L) {
+    register_for_input_source_changes(L);
+    
     luaL_newlib(L, keycodeslib);
     return 1;
 }
