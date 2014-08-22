@@ -1,3 +1,4 @@
+#import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
 #import <lauxlib.h>
 
@@ -174,12 +175,14 @@ static void register_for_input_source_changes(lua_State* L) {
          object:nil
          queue:nil
          usingBlock:^(NSNotification *note) {
-             lua_getglobal(L, "core");
-             lua_getglobal(L, "keycodes");
-             lua_getfield(L, -1, "_inputsourcechanged");
-             if (lua_pcall(L, 0, 0, 0))
-                 hydra_handle_error(L);
-             lua_pop(L, 2);
+             lua_getglobal(L, "core");          // [core]
+             lua_getfield(L, -1, "pcall");      // [core, core.pcall]
+             lua_getfield(L, -2, "keycodes");   // [core, core.pcall, core.keycodes]
+             lua_getfield(L, -1, "_callback");  // [core, core.pcall, core.keycodes, core.keycodes._callback]
+             lua_remove(L, -2);                 // [core, core.pcall, core.keycodes._callback]
+             if (lua_pcall(L, 0, 0, -2))        // [core] or [core, error]
+                 lua_pop(L, 1);
+             lua_pop(L, 1);
          }];
     });
 }

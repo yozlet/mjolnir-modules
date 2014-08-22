@@ -9,36 +9,26 @@ LDFLAGS += -framework Cocoa
 LDFLAGS += -framework Carbon
 
 TGZFILE  = $(MODNAME).tgz
-JSONFILE = $(MODNAME).json
+MDFILE   = metadata.json
+DOCSFILE = docs.json
 OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
 
-all: $(JSONFILE)
+all: $(MDFILE)
 
 $(SOFILES): $(OFILES) $(HEADERS)
 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
-docs.json: $(OBJCFILES) $(LUAFILES)
-	ruby gendocs.rb --json $^ > $@
+$(DOCSFILE): $(OBJCFILES) $(LUAFILES) gendocs.rb
+	ruby gendocs.rb $(OBJCFILES) $(LUAFILES) > $@
 
-docs.in.sql: docs.json
-	ruby gendocs.rb --sqlin $^ > $@
-
-docs.out.sql: docs.json
-	ruby gendocs.rb --sqlout $^ > $@
-
-docs.html.d: docs.json
-	rm -rf $@
-	mkdir -p $@
-	ruby gendocs.rb --html $^ $@
-
-$(TGZFILE): $(SOFILES) $(LUAFILES) docs.html.d docs.in.sql docs.out.sql
+$(TGZFILE): $(SOFILES) $(LUAFILES) $(DOCSFILE)
 	tar -czf $@ $^
 
-$(JSONFILE): $(TGZFILE) genmanifest.rb
-	ruby genmanifest.rb $< > $@
+$(MDFILE): $(TGZFILE) genmetadata.rb
+	ruby genmetadata.rb $(TGZFILE) > $@
 
 clean:
-	rm -rf $(OFILES) $(SOFILES) docs.json docs.in.sql docs.out.sql docs.html.d $(TGZFILE)
+	rm -rf $(OFILES) $(SOFILES) $(DOCSFILE) $(TGZFILE)
 
 .PHONY: all clean

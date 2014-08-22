@@ -23,7 +23,7 @@ keycodes.map = keycodes.cachemap()
 function keycodes.inputsourcechanged()
 end
 
-function keycodes._inputsourcechanged()
+function keycodes._callback()
   keycodes.map = keycodes.cachemap()
   keycodes.inputsourcechanged()
 end
