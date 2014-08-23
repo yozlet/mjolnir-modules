@@ -2,6 +2,8 @@
 #import <Carbon/Carbon.h>
 #import <lauxlib.h>
 
+extern int mjolnir_pcall(lua_State *L, int nargs, int nresults);
+
 static void pushkeycode(lua_State* L, int code, const char* key) {
     // t[key] = code
     lua_pushnumber(L, code);
