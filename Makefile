@@ -4,7 +4,7 @@ OBJCFILES = internal.m
 HEADERS   =
 
 CFLAGS  += -Wall -Wextra
-LDFLAGS += -fobjc-arc
+CFLAGS  += -fobjc-arc
 LDFLAGS += -dynamiclib -undefined dynamic_lookup
 LDFLAGS += -framework Cocoa
 LDFLAGS += -framework Carbon
