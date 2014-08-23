@@ -164,7 +164,6 @@ int keycodes_cachemap(lua_State* L) {
     return 1;
 }
 
-
 static void register_for_input_source_changes(lua_State* L) {
     static id observer;
     static dispatch_once_t onceToken;
@@ -180,8 +179,7 @@ static void register_for_input_source_changes(lua_State* L) {
              lua_getfield(L, -2, "keycodes");   // [core, core.pcall, core.keycodes]
              lua_getfield(L, -1, "_callback");  // [core, core.pcall, core.keycodes, core.keycodes._callback]
              lua_remove(L, -2);                 // [core, core.pcall, core.keycodes._callback]
-             if (lua_pcall(L, 0, 0, -2))        // [core] or [core, error]
-                 lua_pop(L, 1);
+             lua_call(L, 1, 0) ;                // [core]
              lua_pop(L, 1);
          }];
     });
