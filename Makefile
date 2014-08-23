@@ -29,6 +29,6 @@ $(MDFILE): $(TGZFILE) genmetadata.rb
 	ruby genmetadata.rb $(TGZFILE) > $@
 
 clean:
-	rm -rf $(OFILES) $(SOFILES) $(DOCSFILE) $(TGZFILE)
+	rm -rf $(OFILES) $(SOFILES) $(DOCSFILE) $(TGZFILE) $(MDFILE)
 
 .PHONY: all clean
