@@ -175,7 +175,7 @@ static void register_for_input_source_changes(lua_State* L) {
          addObserverForName:NSTextInputContextKeyboardSelectionDidChangeNotification
          object:nil
          queue:nil
-         usingBlock:^(NSNotification *note) {
+         usingBlock:^(NSNotification __attribute__ ((unused)) *note) {
              lua_getglobal(L, "core");
              lua_getfield(L, -1, "keycodes");
              lua_getfield(L, -1, "_callback");
