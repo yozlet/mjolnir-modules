@@ -174,13 +174,12 @@ static void register_for_input_source_changes(lua_State* L) {
          object:nil
          queue:nil
          usingBlock:^(NSNotification *note) {
-             lua_getglobal(L, "core");          // [core]
-             lua_getfield(L, -1, "pcall");      // [core, core.pcall]
-             lua_getfield(L, -2, "keycodes");   // [core, core.pcall, core.keycodes]
-             lua_getfield(L, -1, "_callback");  // [core, core.pcall, core.keycodes, core.keycodes._callback]
-             lua_remove(L, -2);                 // [core, core.pcall, core.keycodes._callback]
-             lua_call(L, 1, 0) ;                // [core]
-             lua_pop(L, 1);
+             lua_getglobal(L, "core");
+             lua_getfield(L, -1, "keycodes");
+             lua_getfield(L, -1, "_callback");
+             if (mjolnir_pcall(L, 0, 0))
+                 lua_pop(L, 2);
+             lua_pop(L, 2);
          }];
     });
 }
