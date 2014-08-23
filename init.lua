@@ -14,7 +14,7 @@
 ---     padclear, padenter, return, tab, space, delete, escape, help,
 ---     home, pageup, forwarddelete, end, pagedown, left, right, down, up
 
-local keycodes = require "ext.core.keycodes.internal"
+local keycodes = require "ext.core_keycodes.internal"
 keycodes.map = keycodes.cachemap()
 
 --- core.keycodes.inputsourcechanged()
