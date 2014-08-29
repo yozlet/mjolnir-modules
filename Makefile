@@ -1,13 +1,13 @@
-# OBJCFILES = keycodes-internal.m
-# OFILES  := $(OBJCFILES:m=o)
-# SOFILES := $(OBJCFILES:m=so)
+OBJCFILES = keycodes-internal.m
+OFILES  := $(OBJCFILES:m=o)
+SOFILES := $(OBJCFILES:m=so)
 
-# all: $(SOFILES)
+all: $(SOFILES)
 
-# $(SOFILES): $(OFILES)
-# 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
+$(SOFILES): $(OFILES)
+	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
-# clean:
-# 	rm -rf $(OFILES) $(SOFILES)
+clean:
+	rm -rf $(OFILES) $(SOFILES)
 
-# .PHONY: all clean
+.PHONY: all clean
