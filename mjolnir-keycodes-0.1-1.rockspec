@@ -15,6 +15,7 @@ dependencies = {
 build = {
   type = "builtin",
   modules = {
-    init = "init.lua"
+    ["mj.keycodes"] = "keycodes.lua",
+    ["mj.keycodes.internal"] = "keycodes-internal.m",
   }
 }
