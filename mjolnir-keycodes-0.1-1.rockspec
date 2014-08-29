@@ -22,7 +22,5 @@ build = {
   },
   variables = {
     CC = "cc",
-    CFLAGS = "-fobjc-arc -Wall -Wextra",
-    LDFLAGS = "-framework Cocoa -framework Carbon",
   }
 }
