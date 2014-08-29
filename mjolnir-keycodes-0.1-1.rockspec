@@ -2,7 +2,7 @@ package = "mjolnir-keycodes"
 version = "0.1-1"
 source = {
   url = "https://github.com/mjolnir-io/mjolnir-keycodes/archive/master.zip",
-  dir = "master",
+  dir = "mjolnir-keycodes-master",
 }
 description = {
   summary = "Convert between key-strings and key-codes.",
