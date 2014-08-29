@@ -13,4 +13,7 @@ $(SOFILES): $(OFILES)
 clean:
 	rm -rf $(OFILES) $(SOFILES)
 
+install:
+	@echo lol no
+
 .PHONY: all clean
