@@ -186,14 +186,18 @@ static void register_for_input_source_changes(lua_State* L) {
     });
 }
 
-static const luaL_Reg keycodeslib[] = {
+static luaL_Reg keycodeslib[] = {
     {"cachemap", keycodes_cachemap},
     {}
 };
 
-int luaopen_ext_core_keycodes_internal(lua_State* L) {
+int luaopen_mj_keycodes_internal(lua_State* L) {
     register_for_input_source_changes(L);
     
-    luaL_newlib(L, keycodeslib);
+    lua_newtable(L);
+    for (luaL_Reg* l = keycodeslib; l->name; l++) {
+        lua_pushcfunction(L, l->func);
+        lua_setfield(L, -2, l->name);
+    }
     return 1;
 }
