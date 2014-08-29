@@ -1,23 +1,13 @@
-MACOSX_DEPLOYMENT_TARGET = 10.8
+# OBJCFILES = keycodes-internal.m
+# OFILES  := $(OBJCFILES:m=o)
+# SOFILES := $(OBJCFILES:m=so)
 
-OBJCFILES = keycodes-internal.m
+# all: $(SOFILES)
 
-CFLAGS  += -Wall -Wextra
-CFLAGS  += -fobjc-arc
-LDFLAGS += -dynamiclib -undefined dynamic_lookup
-LDFLAGS += -framework Cocoa
-LDFLAGS += -framework Carbon
+# $(SOFILES): $(OFILES)
+# 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
-OFILES  := $(OBJCFILES:m=o)
-SOFILES := $(OBJCFILES:m=so)
+# clean:
+# 	rm -rf $(OFILES) $(SOFILES)
 
-
-all: $(SOFILES)
-
-$(SOFILES): $(OFILES)
-	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
-
-clean:
-	rm -rf $(OFILES) $(SOFILES)
-
-.PHONY: all clean
+# .PHONY: all clean
