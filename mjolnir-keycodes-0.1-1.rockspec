@@ -1,7 +1,7 @@
 package = "mjolnir-keycodes"
 version = "0.1-1"
 source = {
-  url = " TODO "
+  url = "https://github.com/mjolnir-io/mjolnir-keycodes/archive/master.zip"
 }
 description = {
   summary = "Convert between key-strings and key-codes.",
