@@ -15,7 +15,7 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "make",
+  type = "builtin",
   modules = {
     ["mj.keycodes"] = "keycodes.lua",
     ["mj.keycodes.internal"] = "keycodes-internal.m",
