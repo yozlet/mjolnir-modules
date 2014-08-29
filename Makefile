@@ -1,4 +1,5 @@
-MODNAME   = core.keycodes
+MACOSX_DEPLOYMENT_TARGET = 10.8
+
 OBJCFILES = keycodes-internal.m
 
 CFLAGS  += -Wall -Wextra
@@ -9,6 +10,7 @@ LDFLAGS += -framework Carbon
 
 OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
+
 
 all: $(SOFILES)
 

@@ -10,6 +10,7 @@ description = {
   homepage = "https://github.com/mjolnir-io/mjolnir-keycodes",
   license = "MIT",
 }
+supported_platforms = {"macosx"}
 dependencies = {
   "lua >= 5.1, < 5.3",
 }
