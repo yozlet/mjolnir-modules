@@ -178,6 +178,7 @@ static void register_for_input_source_changes(lua_State* L) {
           object:nil
           queue:nil
           usingBlock:^(NSNotification __attribute__ ((unused)) *note) {
+              NSLog(@"in the first callback;");
               callback();
           }] retain];
     });
@@ -201,6 +202,7 @@ int luaopen_mj_keycodes_internal(lua_State* L) {
         [callback release];
     
     callback = [^{
+        NSLog(@"in the second callback;");
         lua_getfield(L, -1, "_callback");
         if (mjolnir_pcall(L, 0, 0))
             lua_pop(L, 2);
