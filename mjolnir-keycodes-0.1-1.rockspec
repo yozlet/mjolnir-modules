@@ -15,10 +15,12 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "builtin",
-  modules = {
-    ["mj.keycodes"] = "keycodes.lua",
-    ["mj.keycodes.internal"] = "keycodes-internal.m",
-  },
-  libraries = {"Cocoa", "Carbon"},
+  type = "command",
+  build_command = "echo $(CC)",
+  install_command = "echo $(CFLAGS)",
+  -- modules = {
+  --   ["mj.keycodes"] = "keycodes.lua",
+  --   ["mj.keycodes.internal"] = "keycodes-internal.m",
+  -- },
+  -- libraries = {"Cocoa", "Carbon"},
 }
