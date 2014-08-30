@@ -14,6 +14,6 @@ clean:
 	rm -rf $(OFILES) $(SOFILES)
 
 install:
-	cp $(SOFILES) $(LUA_SHAREDIR)
+	cp $(SOFILES) $(LIBDIR)
 
 .PHONY: all clean
