@@ -21,6 +21,8 @@ build = {
     lib = {["mj.keycodes.internal"] = "keycodes-internal.so"},
   },
   variables = {
-    CC = "cc",
+    CC = "$(CC)",
+    CFLAGS = "$(CFLAGS) -Wall -Wextra",
+    LDFLAGS = "$(LIBFLAG) -framework Cocoa -framework Carbon",
   }
 }

@@ -2,9 +2,6 @@ OBJCFILES = keycodes-internal.m
 OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
 
-CFLAGS += -fobjc-arc -Wall -Wextra
-LDFLAGS += -framework Cocoa -framework Carbon -llua -dynamiclib -undefined dynamic_lookup
-
 all: $(SOFILES)
 
 $(SOFILES): $(OFILES)
@@ -14,6 +11,6 @@ clean:
 	rm -rf $(OFILES) $(SOFILES)
 
 install:
-	@echo lol no
+	@echo $(PREFIX)
 
 .PHONY: all clean
