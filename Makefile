@@ -20,7 +20,7 @@ clean:
 install:
 	# cp $(SOFILES) $(LIBDIR)
 	echo INSTALLING NOW
-	echo $(PREFIX)
+	echo PREFIX = $(PREFIX)
 	ls $(PREFIX)
 	echo DONE INSTALLING
 

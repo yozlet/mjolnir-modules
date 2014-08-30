@@ -17,5 +17,5 @@ dependencies = {
 build = {
   type = "command",
   build_command = "make all",
-  install_command = "make install",
+  install_command = "PREFIX=$(PREFIX) make install",
 }
