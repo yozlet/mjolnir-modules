@@ -16,9 +16,9 @@ dependencies = {
 }
 build = {
   type = "builtin",
-  install = {
-    lua = {["mj.keycodes"] = "keycodes.lua"},
-    lib = {["mj.keycodes.internal"] = "keycodes-internal.so"},
+  modules = {
+    ["mj.keycodes"] = "keycodes.lua",
+    ["mj.keycodes.internal"] = "keycodes-internal.so",
   },
   variables = {
     CC = "$(CC)",
