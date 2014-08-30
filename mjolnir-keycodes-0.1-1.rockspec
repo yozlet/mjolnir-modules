@@ -15,9 +15,15 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "command",
-  build_command = "echo $(CC)",
-  install_command = "echo $(CFLAGS)",
+  type = "make",
+  install = {
+    lua = {["mj.keycodes"] = "keycodes.lua"},
+    lib = {["mj.keycodes.internal"] = "keycodes-internal.so"},
+  },
+  variables = {
+    CC = "$(CC)",
+    CFLAGS = "$(CFLAGS)",
+  },
   -- modules = {
   --   ["mj.keycodes"] = "keycodes.lua",
   --   ["mj.keycodes.internal"] = "keycodes-internal.m",
