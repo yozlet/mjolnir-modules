@@ -15,7 +15,7 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "make",
+  type = "builtin",
   install = {
     lua = {["mj.keycodes"] = "keycodes.lua"},
     lib = {["mj.keycodes.internal"] = "keycodes-internal.so"},
@@ -23,6 +23,6 @@ build = {
   variables = {
     CC = "$(CC)",
     CFLAGS = "$(CFLAGS)",
-    LDFLAGS = "$(LIBFLAG)",
+    LDFLAGS = "$(LIBFLAG) -framework Cocoa -framework Carbon",
   }
 }
