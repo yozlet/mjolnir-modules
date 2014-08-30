@@ -25,9 +25,4 @@ build = {
     CFLAGS = "$(CFLAGS)",
     LDFLAGS = "$(LIBFLAGS)",
   },
-  -- modules = {
-  --   ["mj.keycodes"] = "keycodes.lua",
-  --   ["mj.keycodes.internal"] = "keycodes-internal.m",
-  -- },
-  -- libraries = {"Cocoa", "Carbon"},
 }

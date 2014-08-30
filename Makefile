@@ -8,6 +8,7 @@ LDFLAGS += -framework Cocoa -framework Carbon
 all: $(SOFILES)
 
 $(SOFILES): $(OFILES)
+	echo compiling so file right now
 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
 clean:
