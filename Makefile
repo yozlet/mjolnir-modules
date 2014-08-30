@@ -3,7 +3,7 @@ OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
 
 CFLAGS += -Wall -Wextra
-LDFLAGS += -framework Cocoa -framework Carbon -llua
+LDFLAGS += -framework Cocoa -framework Carbon
 
 all: $(SOFILES)
 
