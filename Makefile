@@ -2,6 +2,9 @@ OBJCFILES = keycodes-internal.m
 OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
 
+CFLAGS += -Wall -Wextra
+LDFLAGS += -framework Cocoa -framework Carbon
+
 all: $(SOFILES)
 
 $(SOFILES): $(OFILES)
@@ -11,6 +14,6 @@ clean:
 	rm -rf $(OFILES) $(SOFILES)
 
 install:
-	@echo $(PREFIX)
+	cp $(SOFILES) $(LUA_SHAREDIR)
 
 .PHONY: all clean

@@ -22,7 +22,7 @@ build = {
   },
   variables = {
     CC = "$(CC)",
-    CFLAGS = "$(CFLAGS) -Wall -Wextra",
-    LDFLAGS = "$(LIBFLAG) -framework Cocoa -framework Carbon",
+    CFLAGS = "$(CFLAGS)",
+    LDFLAGS = "$(LIBFLAG)",
   }
 }
