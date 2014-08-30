@@ -18,11 +18,7 @@ build = {
   type = "builtin",
   modules = {
     ["mj.keycodes"] = "keycodes.lua",
-    ["mj.keycodes.internal"] = "keycodes-internal.so",
+    ["mj.keycodes.internal"] = "keycodes-internal.m",
   },
-  variables = {
-    CC = "$(CC)",
-    CFLAGS = "$(CFLAGS)",
-    LDFLAGS = "$(LIBFLAG) -framework Cocoa -framework Carbon",
-  }
+  libraries = {"Cocoa", "Carbon"},
 }
