@@ -166,23 +166,20 @@ int keycodes_cachemap(lua_State* L) {
     return 1;
 }
 
+static dispatch_block_t callback;
+
 static void register_for_input_source_changes(lua_State* L) {
     static id observer;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         observer =
-        [[NSNotificationCenter defaultCenter]
-         addObserverForName:NSTextInputContextKeyboardSelectionDidChangeNotification
-         object:nil
-         queue:nil
-         usingBlock:^(NSNotification __attribute__ ((unused)) *note) {
-             lua_getglobal(L, "core");
-             lua_getfield(L, -1, "keycodes");
-             lua_getfield(L, -1, "_callback");
-             if (mjolnir_pcall(L, 0, 0))
-                 lua_pop(L, 2);
-             lua_pop(L, 2);
-         }];
+        [[[NSNotificationCenter defaultCenter]
+          addObserverForName:NSTextInputContextKeyboardSelectionDidChangeNotification
+          object:nil
+          queue:nil
+          usingBlock:^(NSNotification __attribute__ ((unused)) *note) {
+              callback();
+          }] retain];
     });
 }
 
@@ -199,5 +196,16 @@ int luaopen_mj_keycodes_internal(lua_State* L) {
         lua_pushcfunction(L, l->func);
         lua_setfield(L, -2, l->name);
     }
+    
+    if (callback)
+        [callback release];
+    
+    callback = [^{
+        lua_getfield(L, -1, "_callback");
+        if (mjolnir_pcall(L, 0, 0))
+            lua_pop(L, 2);
+        lua_pop(L, 2);
+    } copy];
+    
     return 1;
 }
