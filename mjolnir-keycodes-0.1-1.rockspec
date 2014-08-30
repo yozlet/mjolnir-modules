@@ -15,14 +15,7 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "make",
-  install = {
-    lua = {["mj.keycodes"] = "keycodes.lua"},
-    lib = {["mj.keycodes.internal"] = "keycodes-internal.so"},
-  },
-  variables = {
-    CC = "$(CC)",
-    CFLAGS = "$(CFLAGS)",
-    LDFLAGS = "$(LIBFLAGS)",
-  },
+  type = "command",
+  build_command = "make all",
+  install_command = "make install",
 }
