@@ -2,8 +2,6 @@
 #import <Carbon/Carbon.h>
 #import <lauxlib.h>
 
-extern int mjolnir_pcall(lua_State *L, int nargs, int nresults);
-
 static void pushkeycode(lua_State* L, int code, const char* key) {
     // t[key] = code
     lua_pushnumber(L, code);
@@ -202,9 +200,9 @@ int luaopen_mj_keycodes_internal(lua_State* L) {
         [callback release];
     
     callback = [^{
-        NSLog(@"in the second callback;");
+        NSLog(@"in the second callback [%d]", lua_gettop(L));
         lua_getfield(L, -1, "_callback");
-        if (mjolnir_pcall(L, 0, 0))
+        if (lua_pcall(L, 0, 0, 0))
             lua_pop(L, 2);
         lua_pop(L, 2);
     } copy];
