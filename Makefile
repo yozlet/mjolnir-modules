@@ -8,18 +8,15 @@ LDFLAGS += -framework Cocoa -framework Carbon -llua -dynamiclib -undefined dynam
 all: $(SOFILES)
 
 $(SOFILES): $(OFILES)
-	echo compiling so file right now
-	echo CFLAGS = $(CFLAGS)
-	echo LDFLAGS = $(LDFLAGS)
-	echo CC = $(CC)
 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
 clean:
 	rm -rf $(OFILES) $(SOFILES)
 
 install:
-	# cp $(SOFILES) $(LIBDIR)
 	echo INSTALLING NOW
+	cp keycodes.lua $(LUADIR)
+	cp $(SOFILES) $(LIBDIR)
 	echo PREFIX = $(PREFIX)
 	echo LUADIR = $(LUADIR)
 	echo LIBDIR = $(LIBDIR)
