@@ -15,6 +15,8 @@ clean:
 
 install:
 	echo INSTALLING NOW
+	mkdir -p $(LUADIR)
+	mkdir -p $(LIBDIR)
 	cp keycodes.lua $(LUADIR)
 	cp $(SOFILES) $(LIBDIR)
 	echo PREFIX = $(PREFIX)
