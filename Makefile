@@ -2,8 +2,8 @@ OBJCFILES = keycodes-internal.m
 OFILES  := $(OBJCFILES:m=o)
 SOFILES := $(OBJCFILES:m=so)
 
-CFLAGS += -Wall -Wextra
-LDFLAGS += -framework Cocoa -framework Carbon
+CFLAGS = -Wall -Wextra
+LDFLAGS = -framework Cocoa -framework Carbon
 
 all: $(SOFILES)
 
