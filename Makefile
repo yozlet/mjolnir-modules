@@ -21,7 +21,8 @@ install:
 	# cp $(SOFILES) $(LIBDIR)
 	echo INSTALLING NOW
 	echo PREFIX = $(PREFIX)
-	ls $(PREFIX)
+	echo LUADIR = $(LUADIR)
+	echo LIBDIR = $(LIBDIR)
 	echo DONE INSTALLING
 
 .PHONY: all clean
