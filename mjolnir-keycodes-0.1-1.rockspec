@@ -22,8 +22,8 @@ build = {
   },
   variables = {
     CC = "$(CC)",
-    CFLAGS = "",
-    LDFLAGS = "",
+    CFLAGS = "$(CFLAGS)",
+    LDFLAGS = "$(LIBFLAGS)",
   },
   -- modules = {
   --   ["mj.keycodes"] = "keycodes.lua",
