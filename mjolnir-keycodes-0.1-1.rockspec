@@ -15,7 +15,9 @@ dependencies = {
   "lua >= 5.1, < 5.3",
 }
 build = {
-  type = "command",
-  build_command = "make all",
-  install_command = "PREFIX=$(PREFIX) LUADIR=$(LUADIR) LIBDIR=$(LIBDIR) make install",
+  type = "builtin",
+  modules = {
+    ["mj.keycodes"] = "keycodes.lua",
+    ["mj.keycodes.internal"] = "keycodes-internal.m",
+  },
 }
