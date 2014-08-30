@@ -9,6 +9,8 @@ all: $(SOFILES)
 
 $(SOFILES): $(OFILES)
 	echo compiling so file right now
+	echo CFLAGS = $(CFLAGS)
+	echo LDFLAGS = $(LDFLAGS)
 	$(CC) $(OFILES) $(CFLAGS) $(LDFLAGS) -o $@
 
 clean:
