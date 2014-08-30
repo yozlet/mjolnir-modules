@@ -210,10 +210,16 @@ static int keycodes_newcallback(lua_State* L) {
 }
 
 static int keycodes_callback_gc(lua_State* L) {
-    NSLog(@"collected!");
     MJKeycodesObserver* observer = *(MJKeycodesObserver**)luaL_checkudata(L, 1, "mj.keycodes.callback");
     [observer stop];
+    luaL_unref(L, LUA_REGISTRYINDEX, observer.ref);
     [observer release];
+    return 0;
+}
+
+static int keycodes_callback_stop(lua_State* L) {
+    MJKeycodesObserver* observer = *(MJKeycodesObserver**)luaL_checkudata(L, 1, "mj.keycodes.callback");
+    [observer stop];
     return 0;
 }
 
@@ -225,6 +231,12 @@ static luaL_Reg keycodeslib[] = {
 
 int luaopen_mj_keycodes_internal(lua_State* L) {
     if (luaL_newmetatable(L, "mj.keycodes.callback")) {
+        lua_pushvalue(L, -1);
+        lua_setfield(L, -2, "__index");
+        
+        lua_pushcfunction(L, keycodes_callback_stop);
+        lua_setfield(L, -2, "stop");
+        
         lua_pushcfunction(L, keycodes_callback_gc);
         lua_setfield(L, -2, "__gc");
     }
