@@ -164,48 +164,77 @@ int keycodes_cachemap(lua_State* L) {
     return 1;
 }
 
-static dispatch_block_t callback;
+@interface MJKeycodesObserver : NSObject
+@property lua_State* L;
+@property int ref;
+@end
 
-static void register_for_input_source_changes(lua_State* L) {
-    static id observer;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        observer =
-        [[[NSNotificationCenter defaultCenter]
-          addObserverForName:NSTextInputContextKeyboardSelectionDidChangeNotification
-          object:nil
-          queue:nil
-          usingBlock:^(NSNotification __attribute__ ((unused)) *note) {
-              NSLog(@"in the first callback;");
-              callback();
-          }] retain];
-    });
+@implementation MJKeycodesObserver
+
+- (void) inputSourceChanged:(NSNotification*)note {
+    lua_rawgeti(self.L, LUA_REGISTRYINDEX, self.ref);
+    lua_call(self.L, 0, 0);
+}
+
+- (void) start {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(inputSourceChanged:)
+                                                 name:NSTextInputContextKeyboardSelectionDidChangeNotification
+                                               object:nil];
+}
+
+- (void) stop {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+@end
+
+static int keycodes_newcallback(lua_State* L) {
+    luaL_checktype(L, 1, LUA_TFUNCTION);
+    
+    lua_pushvalue(L, 1);
+    int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    
+    MJKeycodesObserver* observer = [[MJKeycodesObserver alloc] init];
+    observer.L = L;
+    observer.ref = ref;
+    [observer start];
+    
+    MJKeycodesObserver** ud = lua_newuserdata(L, sizeof(id));
+    *ud = observer;
+    
+    luaL_getmetatable(L, "mj.keycodes.callback");
+    lua_setmetatable(L, -2);
+    
+    return 1;
+}
+
+static int keycodes_callback_gc(lua_State* L) {
+    NSLog(@"collected!");
+    MJKeycodesObserver* observer = *(MJKeycodesObserver**)luaL_checkudata(L, 1, "mj.keycodes.callback");
+    [observer stop];
+    [observer release];
+    return 0;
 }
 
 static luaL_Reg keycodeslib[] = {
-    {"cachemap", keycodes_cachemap},
+    {"_newcallback", keycodes_newcallback},
+    {"_cachemap", keycodes_cachemap},
     {}
 };
 
 int luaopen_mj_keycodes_internal(lua_State* L) {
-    register_for_input_source_changes(L);
+    if (luaL_newmetatable(L, "mj.keycodes.callback")) {
+        lua_pushcfunction(L, keycodes_callback_gc);
+        lua_setfield(L, -2, "__gc");
+    }
+    lua_pop(L, 1);
     
     lua_newtable(L);
     for (luaL_Reg* l = keycodeslib; l->name; l++) {
         lua_pushcfunction(L, l->func);
         lua_setfield(L, -2, l->name);
     }
-    
-    if (callback)
-        [callback release];
-    
-    callback = [^{
-        NSLog(@"in the second callback [%d]", lua_gettop(L));
-        lua_getfield(L, -1, "_callback");
-        if (lua_pcall(L, 0, 0, 0))
-            lua_pop(L, 2);
-        lua_pop(L, 2);
-    } copy];
     
     return 1;
 }

@@ -1,7 +1,7 @@
---- === core.keycodes ===
+--- === mj.keycodes ===
 --- Functionality for converting between key-strings and key-codes.
 
---- core.keycodes.map = {...}
+--- mj.keycodes.map = {...}
 --- A mapping from string representation of a key to its keycode, and vice versa.
 --- For example: keycodes[1] == "s", and keycodes["s"] == 1, and so on.
 --- This is primarily used by the core.eventtap and core.hotkey extensions.
@@ -15,17 +15,19 @@
 ---     home, pageup, forwarddelete, end, pagedown, left, right, down, up
 
 local keycodes = require "mj.keycodes.internal"
-keycodes.map = keycodes.cachemap()
+keycodes.map = keycodes._cachemap()
 
---- core.keycodes.inputsourcechanged()
---- Called when your input source (i.e. qwerty, dvorak, colemac) changes.
---- Default implementation does nothing; you may override this to rebind your hotkeys or whatever.
-function keycodes.inputsourcechanged()
+--- mj.keycodes.inputsourcechanged(fn())
+--- Sets the function to be called when your input source (i.e. qwerty, dvorak, colemac) changes.
+--- You can use this to rebind your hotkeys or whatever.
+function keycodes.inputsourcechanged(fn)
+  fn = fn or function()end
+  keycodes._callback = keycodes._newcallback(function()
+      keycodes.map = keycodes._cachemap()
+      xpcall(fn, mj.errorhandler)
+  end)
 end
 
-function keycodes._callback()
-  keycodes.map = keycodes.cachemap()
-  keycodes.inputsourcechanged()
-end
+keycodes.inputsourcechanged()
 
 return keycodes
