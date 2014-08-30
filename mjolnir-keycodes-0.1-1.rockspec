@@ -2,8 +2,8 @@ package = "mjolnir-keycodes"
 version = "0.1-1"
 source = {url = "git://github.com/mjolnir-io/mjolnir-keycodes"}
 description = {
-  summary = "Convert between key-strings and key-codes.",
-  detailed = "Convert between key-strings and key-codes.",
+  summary = "Mjolnir module to convert between key-strings and key-codes.",
+  detailed = "Mjolnir module to convert between key-strings and key-codes.",
   homepage = "https://github.com/mjolnir-io/mjolnir-keycodes",
   license = "MIT",
 }
