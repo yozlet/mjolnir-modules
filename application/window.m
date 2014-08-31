@@ -68,7 +68,7 @@ static AXUIElementRef system_wide_element() {
     return element;
 }
 
-/// core.window.focusedwindow() -> window
+/// mj.window.focusedwindow() -> window
 /// Returns the focused window, or nil.
 static int window_focusedwindow(lua_State* L) {
     CFTypeRef app;
@@ -107,7 +107,7 @@ static BOOL set_window_prop(AXUIElementRef win, NSString* propType, id value) {
     return NO;
 }
 
-/// core.window:title() -> string
+/// mj.window:title() -> string
 /// Returns the title of the window (as UTF8).
 static int window_title(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -117,7 +117,7 @@ static int window_title(lua_State* L) {
     return 1;
 }
 
-/// core.window:subrole() -> string
+/// mj.window:subrole() -> string
 /// Returns the subrole of the window, whatever that means.
 static int window_subrole(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -128,7 +128,7 @@ static int window_subrole(lua_State* L) {
     return 1;
 }
 
-/// core.window:role() -> string
+/// mj.window:role() -> string
 /// Returns the role of the window, whatever that means.
 static int window_role(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -139,7 +139,7 @@ static int window_role(lua_State* L) {
     return 1;
 }
 
-/// core.window:isstandard() -> bool
+/// mj.window:isstandard() -> bool
 /// True if the window's subrole indicates it's 'a standard window'.
 static int window_isstandard(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -150,7 +150,7 @@ static int window_isstandard(lua_State* L) {
     return 1;
 }
 
-/// core.window:topleft() -> point
+/// mj.window:topleft() -> point
 /// The top-left corner of the window in absolute coordinates.
 static int window_topleft(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -175,7 +175,7 @@ static int window_topleft(lua_State* L) {
     return 1;
 }
 
-/// core.window:size() -> size
+/// mj.window:size() -> size
 /// The size of the window.
 static int window_size(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -200,7 +200,7 @@ static int window_size(lua_State* L) {
     return 1;
 }
 
-/// core.window:settopleft(point)
+/// mj.window:settopleft(point)
 /// Moves the window to the given point in absolute coordinate.
 static int window_settopleft(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -214,7 +214,7 @@ static int window_settopleft(lua_State* L) {
     return 0;
 }
 
-/// core.window:setsize(size)
+/// mj.window:setsize(size)
 /// Resizes the window.
 static int window_setsize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -228,7 +228,7 @@ static int window_setsize(lua_State* L) {
     return 0;
 }
 
-/// core.window:close() -> bool
+/// mj.window:close() -> bool
 /// Closes the window; returns whether it succeeded.
 static int window_close(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -248,7 +248,7 @@ cleanup:
     return 1;
 }
 
-/// core.window:setfullscreen(bool) -> bool
+/// mj.window:setfullscreen(bool) -> bool
 /// Sets whether the window is full screen; returns whether it succeeded.
 static int window_setfullscreen(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -258,7 +258,7 @@ static int window_setfullscreen(lua_State* L) {
     return 1;
 }
 
-/// core.window:isfullscreen() -> bool or nil
+/// mj.window:isfullscreen() -> bool or nil
 /// Returns whether the window is full screen, or nil if asking that question fails.
 static int window_isfullscreen(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -281,7 +281,7 @@ cleanup:
     return 1;
 }
 
-/// core.window:minimize()
+/// mj.window:minimize()
 /// Minimizes the window.
 static int window_minimize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -290,7 +290,7 @@ static int window_minimize(lua_State* L) {
     return 0;
 }
 
-/// core.window:unminimize()
+/// mj.window:unminimize()
 /// Un-minimizes the window.
 static int window_unminimize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -299,7 +299,7 @@ static int window_unminimize(lua_State* L) {
     return 0;
 }
 
-/// core.window:isminimized() -> bool
+/// mj.window:isminimized() -> bool
 /// True if the window is currently minimized in the dock.
 static int window_isminimized(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -325,7 +325,7 @@ static int window_pid(lua_State* L) {
     }
 }
 
-/// core.window:application() -> app
+/// mj.window:application() -> app
 /// Returns the app that the window belongs to; may be nil.
 static int window_application(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -344,7 +344,7 @@ static int window_application(lua_State* L) {
     return 1;
 }
 
-/// core.window:becomemain() -> bool
+/// mj.window:becomemain() -> bool
 /// Make this window the main window of the given application; deos not implicitly focus the app.
 static int window_becomemain(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -371,7 +371,7 @@ static int window__orderedwinids(lua_State* L) {
     return 1;
 }
 
-/// core.window:id() -> number, sometimes nil
+/// mj.window:id() -> number, sometimes nil
 /// Returns a unique number identifying this window.
 static int window_id(lua_State* L) {
     lua_settop(L, 1);

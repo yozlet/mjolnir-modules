@@ -3,7 +3,7 @@
 #import <lauxlib.h>
 #import "window.h"
 
-#define get_app(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "core.application"))
+#define get_app(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "mj.application"))
 #define nsobject_for_app(L, idx) [NSRunningApplication runningApplicationWithProcessIdentifier: pid_for_app(L, idx)]
 
 static void require_core_window(lua_State* L) {
@@ -41,7 +41,7 @@ void new_application(lua_State* L, pid_t pid) {
     AXUIElementRef* appptr = lua_newuserdata(L, sizeof(AXUIElementRef));
     *appptr = AXUIElementCreateApplication(pid);
     
-    luaL_getmetatable(L, "core.application");
+    luaL_getmetatable(L, "mj.application");
     lua_setmetatable(L, -2);
     
     lua_newtable(L);
@@ -50,7 +50,7 @@ void new_application(lua_State* L, pid_t pid) {
     lua_setuservalue(L, -2);
 }
 
-/// core.application.runningapplications() -> app[]
+/// mj.application.runningapplications() -> app[]
 /// Returns all running apps.
 static int application_runningapplications(lua_State* L) {
     lua_newtable(L);
@@ -64,7 +64,7 @@ static int application_runningapplications(lua_State* L) {
     return 1;
 }
 
-/// core.application.applicationforpid(pid) -> app or nil
+/// mj.application.applicationforpid(pid) -> app or nil
 /// Returns the running app for the given pid, if it exists.
 static int application_applicationforpid(lua_State* L) {
     pid_t pid = luaL_checknumber(L, 1);
@@ -79,7 +79,7 @@ static int application_applicationforpid(lua_State* L) {
     return 1;
 }
 
-/// core.application.applicationsforbundleid(bundleid) -> app[]
+/// mj.application.applicationsforbundleid(bundleid) -> app[]
 /// Returns any running apps that have the given bundleid.
 static int application_applicationsforbundleid(lua_State* L) {
     const char* bundleid = luaL_checkstring(L, 1);
@@ -97,7 +97,7 @@ static int application_applicationsforbundleid(lua_State* L) {
     return 1;
 }
 
-/// core.application:allwindows() -> window[]
+/// mj.application:allwindows() -> window[]
 /// Returns all open windows owned by the given app.
 static int application_allwindows(lua_State* L) {
     require_core_window(L);
@@ -122,7 +122,7 @@ static int application_allwindows(lua_State* L) {
     return 1;
 }
 
-/// core.application:mainwindow() -> window
+/// mj.application:mainwindow() -> window
 /// Returns the main window of the given app, or nil.
 static int application_mainwindow(lua_State* L) {
     require_core_window(L);
@@ -192,7 +192,7 @@ static int application__bringtofront(lua_State* L) {
     return 1;
 }
 
-/// core.application:title() -> string
+/// mj.application:title() -> string
 /// Returns the localized name of the app (in UTF8).
 static int application_title(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -200,7 +200,7 @@ static int application_title(lua_State* L) {
     return 1;
 }
 
-/// core.application:bundleid() -> string
+/// mj.application:bundleid() -> string
 /// Returns the bundle identifier of the app.
 static int application_bundleid(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -208,7 +208,7 @@ static int application_bundleid(lua_State* L) {
     return 1;
 }
 
-/// core.application:unhide() -> success
+/// mj.application:unhide() -> success
 /// Unhides the app (and all its windows) if it's hidden.
 static int application_unhide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -217,7 +217,7 @@ static int application_unhide(lua_State* L) {
     return 1;
 }
 
-/// core.application:hide() -> success
+/// mj.application:hide() -> success
 /// Hides the app (and all its windows).
 static int application_hide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -226,7 +226,7 @@ static int application_hide(lua_State* L) {
     return 1;
 }
 
-/// core.application:kill()
+/// mj.application:kill()
 /// Tries to terminate the app.
 static int application_kill(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -235,7 +235,7 @@ static int application_kill(lua_State* L) {
     return 0;
 }
 
-/// core.application:kill9()
+/// mj.application:kill9()
 /// Assuredly terminates the app.
 static int application_kill9(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -244,7 +244,7 @@ static int application_kill9(lua_State* L) {
     return 0;
 }
 
-/// core.application:ishidden() -> bool
+/// mj.application:ishidden() -> bool
 /// Returns whether the app is currently hidden.
 static int application_ishidden(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -259,14 +259,14 @@ static int application_ishidden(lua_State* L) {
     return 1;
 }
 
-/// core.application:pid() -> number
+/// mj.application:pid() -> number
 /// Returns the app's process identifier.
 static int application_pid(lua_State* L) {
     lua_pushnumber(L, pid_for_app(L, 1));
     return 1;
 }
 
-/// core.application:kind() -> number
+/// mj.application:kind() -> number
 /// Returns 1 if the app is in the dock, 0 if not, and -1 if it can't even have GUI elements if it wanted to.
 static int application_kind(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -309,7 +309,7 @@ static const luaL_Reg applicationlib[] = {
 int luaopen_mj_application_internal(lua_State* L) {
     luaL_newlib(L, applicationlib);
     
-    if (luaL_newmetatable(L, "core.application")) {
+    if (luaL_newmetatable(L, "mj.application")) {
         lua_pushvalue(L, -2); // 'application' table
         lua_setfield(L, -2, "__index");
         
