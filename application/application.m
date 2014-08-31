@@ -1,21 +1,10 @@
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
 #import <lauxlib.h>
-void new_window(lua_State* L, AXUIElementRef win);
+#import "window.h"
 
 #define get_app(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "core.application"))
 #define nsobject_for_app(L, idx) [NSRunningApplication runningApplicationWithProcessIdentifier: pid_for_app(L, idx)]
-
-void new_window(lua_State* L, AXUIElementRef win) {
-    AXUIElementRef* winptr = lua_newuserdata(L, sizeof(AXUIElementRef));
-    *winptr = win;
-    
-    luaL_getmetatable(L, "core.window");
-    lua_setmetatable(L, -2);
-    
-    lua_newtable(L);
-    lua_setuservalue(L, -2);
-}
 
 static void require_core_window(lua_State* L) {
     lua_getglobal(L, "core");
