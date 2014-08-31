@@ -99,7 +99,7 @@ end
 --- mj.window:maximize()
 --- Make this window fill the whole screen its on, without covering the dock or menu.
 function window:maximize()
-  local screenrect = self:screen():frame_without_dock_or_menu()
+  local screenrect = self:screen():frame()
   self:setframe(screenrect)
 end
 
@@ -212,7 +212,7 @@ function window:focuswindow_south() return focus_first_valid_window(self:windows
 --- The argument is a rect with each key being between 0.0 and 1.0.
 --- Example: win:movetounit(x=0, y=0, w=0.5, h=0.5) -- window now fills top-left quarter of screen
 function window:movetounit(unit)
-  local screenrect = self:screen():frame_without_dock_or_menu()
+  local screenrect = self:screen():frame()
   self:setframe({
       x = screenrect.x + (unit.x * screenrect.w),
       y = screenrect.y + (unit.y * screenrect.h),
