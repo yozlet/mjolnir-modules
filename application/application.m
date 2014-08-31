@@ -6,15 +6,6 @@
 #define get_app(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "mj.application"))
 #define nsobject_for_app(L, idx) [NSRunningApplication runningApplicationWithProcessIdentifier: pid_for_app(L, idx)]
 
-static void require_core_window(lua_State* L) {
-    lua_getglobal(L, "core");
-    lua_getfield(L, -1, "window");
-    if (lua_isnil(L, -1))
-        luaL_error(L, "this method requires \"core.window\" to be installed");
-    else
-        lua_pop(L, 2);
-}
-
 static pid_t pid_for_app(lua_State* L, int idx) {
     get_app(L, idx); // type-checking
     lua_getuservalue(L, idx);
@@ -100,8 +91,6 @@ static int application_applicationsforbundleid(lua_State* L) {
 /// mj.application:allwindows() -> window[]
 /// Returns all open windows owned by the given app.
 static int application_allwindows(lua_State* L) {
-    require_core_window(L);
-    
     AXUIElementRef app = get_app(L, 1);
     
     lua_newtable(L);
@@ -125,8 +114,6 @@ static int application_allwindows(lua_State* L) {
 /// mj.application:mainwindow() -> window
 /// Returns the main window of the given app, or nil.
 static int application_mainwindow(lua_State* L) {
-    require_core_window(L);
-    
     AXUIElementRef app = get_app(L, 1);
     
     CFTypeRef window;
@@ -151,8 +138,6 @@ static int application__activate(lua_State* L) {
 }
 
 static int application__focusedwindow(lua_State* L) {
-    require_core_window(L);
-    
     AXUIElementRef app = get_app(L, 1);
     CFTypeRef window;
     if (AXUIElementCopyAttributeValue(app, (CFStringRef)NSAccessibilityFocusedWindowAttribute, &window) == kAXErrorSuccess) {
