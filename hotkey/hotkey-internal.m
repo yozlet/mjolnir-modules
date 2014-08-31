@@ -24,7 +24,7 @@ static void* push_hotkey(lua_State* L, int x) {
 static void remove_all_hotkeys(lua_State* L) {
     [[handlers copy] enumerateIndexesUsingBlock:^(NSUInteger x, BOOL __attribute__ ((unused)) *stop) {
         lua_pushvalue(L, -1);
-        push_hotkey(L, x);
+        push_hotkey(L, (int)x);
         lua_call(L, 1, 0);
     }];
 }
@@ -176,7 +176,7 @@ static OSStatus hotkey_callback(EventHandlerCallRef __attribute__ ((unused)) inH
 }
 
 int luaopen_mj_hotkey_internal(lua_State* L) {
-    handlers = [NSMutableIndexSet indexSet];
+    handlers = [[NSMutableIndexSet indexSet] retain];
     
     luaL_newlib(L, hotkeylib);
     
