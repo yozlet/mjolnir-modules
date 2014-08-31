@@ -1,11 +1,11 @@
---- === core.fnutils ===
+--- === mj.fnutils ===
 ---
 --- Super-helpful functional programming utilities.
 
 local fnutils = {}
 
 
---- core.fnutils.map(t, fn) -> t
+--- mj.fnutils.map(t, fn) -> t
 --- Returns a table of the results of fn(el) on every el in t.
 function fnutils.map(t, fn)
   local nt = {}
@@ -15,7 +15,7 @@ function fnutils.map(t, fn)
   return nt
 end
 
---- core.fnutils.each(t, fn) -> t
+--- mj.fnutils.each(t, fn) -> t
 --- Runs fn(el) for every el in t.
 function fnutils.each(t, fn)
   for k, v in pairs(t) do
@@ -23,7 +23,7 @@ function fnutils.each(t, fn)
   end
 end
 
---- core.fnutils.filter(t, fn) -> t
+--- mj.fnutils.filter(t, fn) -> t
 --- Returns a table of the elements in t in which fn(el) is truthy.
 function fnutils.filter(t, fn)
   local nt = {}
@@ -33,7 +33,7 @@ function fnutils.filter(t, fn)
   return nt
 end
 
---- core.fnutils.copy(t) -> t2
+--- mj.fnutils.copy(t) -> t2
 --- Returns a new copy of t using pairs(t).
 function fnutils.copy(t)
   local nt = {}
@@ -43,7 +43,7 @@ function fnutils.copy(t)
   return nt
 end
 
---- core.fnutils.contains(t, el) -> bool
+--- mj.fnutils.contains(t, el) -> bool
 --- Returns whether the table contains the given element.
 function fnutils.contains(t, el)
   for k, v in pairs(t) do
@@ -54,7 +54,7 @@ function fnutils.contains(t, el)
   return false
 end
 
---- core.fnutils.indexof(t, el) -> int or nil
+--- mj.fnutils.indexof(t, el) -> int or nil
 --- Returns the index of a given element in a table, or nil if not found.
 function fnutils.indexof(t, el)
   for k, v in pairs(t) do
@@ -65,7 +65,7 @@ function fnutils.indexof(t, el)
   return nil
 end
 
---- core.fnutils.concat(t1, t2)
+--- mj.fnutils.concat(t1, t2)
 --- Adds all elements of t2 to the end of t1.
 function fnutils.concat(t1, t2)
   for i = 1, #t2 do
@@ -74,7 +74,7 @@ function fnutils.concat(t1, t2)
   return t1
 end
 
---- core.fnutils.mapcat(t, fn) -> t2
+--- mj.fnutils.mapcat(t, fn) -> t2
 --- Runs fn(el) for every el in t, and assuming the results are tables, combines them into a new table.
 function fnutils.mapcat(t, fn)
   local nt = {}
@@ -84,7 +84,7 @@ function fnutils.mapcat(t, fn)
   return nt
 end
 
---- core.fnutils.reduce(t, fn) -> t2
+--- mj.fnutils.reduce(t, fn) -> t2
 --- Runs fn(el1, el2) for every el in t, then fn(result, el3), etc, until there's only one left.
 function fnutils.reduce(t, fn)
   local len = #t
@@ -98,7 +98,7 @@ function fnutils.reduce(t, fn)
   return result
 end
 
---- core.fnutils.find(t, fn) -> el
+--- mj.fnutils.find(t, fn) -> el
 --- Returns the first element where fn(el) is truthy.
 function fnutils.find(t, fn)
   for _, v in pairs(t) do
@@ -107,7 +107,7 @@ function fnutils.find(t, fn)
   return nil
 end
 
---- core.fnutils.sequence(...) -> fn
+--- mj.fnutils.sequence(...) -> fn
 --- Returns a list of the results of the passed functions.
 function fnutils.sequence(...)
   local arg = table.pack(...)
@@ -120,7 +120,7 @@ function fnutils.sequence(...)
   end
 end
 
---- core.fnutils.partial(fn, ...) -> fn'
+--- mj.fnutils.partial(fn, ...) -> fn'
 --- Returns fn partially applied to arg (...).
 function fnutils.partial(fn, ...)
   local args = table.pack(...)
@@ -132,7 +132,7 @@ function fnutils.partial(fn, ...)
   end
 end
 
---- core.fnutils.cycle(t) -> fn() -> t[n]
+--- mj.fnutils.cycle(t) -> fn() -> t[n]
 --- Returns a function that returns t[1], t[2], ... t[#t], t[1], ... on successive calls.
 --- Example:
 ---     f = cycle({4, 5, 6})
