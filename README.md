@@ -17,4 +17,7 @@ $ moonrocks install mjolnir-geometry
 
 # Inspect and manipulate screens (i.e. monitors).
 $ moonrocks install mjolnir-screen
+
+# Inspect and manipulate running applications and their windows.
+$ moonrocks install mjolnir-application
 ~~~
