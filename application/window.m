@@ -409,7 +409,7 @@ static const luaL_Reg windowlib[] = {
     {}
 };
 
-int luaopen_ext_core_window_internal(lua_State* L) {
+int luaopen_mj_window_internal(lua_State* L) {
     luaL_newlib(L, windowlib);
     
     if (luaL_newmetatable(L, "mj.window")) {
