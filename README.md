@@ -1,6 +1,6 @@
 # mjolnir-core
 
-[Mjolnir](https://github.com/mjolnir-io/mjolnir) Lua modules to convert between key-strings and key-codes.
+Fundamental Lua modules for [Mjolnir](https://github.com/mjolnir-io/mjolnir).
 
 ~~~bash
 # Convert between key-strings and key-codes.
