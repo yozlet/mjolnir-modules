@@ -9,3 +9,11 @@ Mjolnir module to convert between key-strings and key-codes.
 ~~~bash
 $ moonrocks install mjolnir-keycodes
 ~~~
+
+### core.hotkey
+
+Mjolnir module to create and manage global hotkeys.
+
+~~~bash
+$ moonrocks install mjolnir-hotkey
+~~~
