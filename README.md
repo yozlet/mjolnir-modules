@@ -11,4 +11,7 @@ $ moonrocks install mjolnir-hotkey
 
 # Super-helpful functional programming utilities.
 $ moonrocks install mjolnir-fnutils
+
+# Mathy stuff.
+$ moonrocks install mjolnir-geometry
 ~~~
