@@ -125,11 +125,13 @@ static const luaL_Reg hotkeylib[] = {
     {NULL, NULL}
 };
 
+static lua_State* currentL;
+
 static OSStatus hotkey_callback(EventHandlerCallRef __attribute__ ((unused)) inHandlerCallRef, EventRef inEvent, void *inUserData) {
     EventHotKeyID eventID;
     GetEventParameter(inEvent, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(eventID), NULL, &eventID);
     
-    lua_State* L = inUserData;
+    lua_State* L = currentL;
     
     hotkey_t* hotkey = push_hotkey(L, eventID.id);
     lua_pop(L, 1);
@@ -142,17 +144,28 @@ static OSStatus hotkey_callback(EventHandlerCallRef __attribute__ ((unused)) inH
 }
 
 int luaopen_mj_hotkey_internal(lua_State* L) {
+    if (handlers) [handlers release];
     handlers = [[NSMutableIndexSet indexSet] retain];
     
     luaL_newlib(L, hotkeylib);
     
-    // watch for hotkey events
-    EventHandlerRef handler;
+    // save current lua environment
+    currentL = L;
     
-    EventTypeSpec hotKeyPressedSpec[] = {{kEventClassKeyboard, kEventHotKeyPressed}, {kEventClassKeyboard, kEventHotKeyReleased}};
-    InstallEventHandler(GetEventDispatcherTarget(), hotkey_callback, sizeof(hotKeyPressedSpec) / sizeof(EventTypeSpec), hotKeyPressedSpec, L, &handler);
-    
-//    RemoveEventHandler(handler);
+    // watch for hotkey events (only once per Mjolnir lifetime)
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        EventTypeSpec hotKeyPressedSpec[] = {
+            {kEventClassKeyboard, kEventHotKeyPressed},
+            {kEventClassKeyboard, kEventHotKeyReleased},
+        };
+        InstallEventHandler(GetEventDispatcherTarget(),
+                            hotkey_callback,
+                            sizeof(hotKeyPressedSpec) / sizeof(EventTypeSpec),
+                            hotKeyPressedSpec,
+                            NULL,
+                            NULL);
+    });
     
     // put hotkey in registry; necessary for luaL_checkudata()
     lua_pushvalue(L, -1);
