@@ -223,30 +223,32 @@ static int keycodes_callback_stop(lua_State* L) {
     return 0;
 }
 
-static luaL_Reg keycodeslib[] = {
+static const luaL_Reg callbacklib[] = {
+    // instance methods
+    {"_stop", keycodes_callback_stop},
+    
+    // metamethods
+    {"__gc", keycodes_callback_gc},
+    
+    {}
+};
+
+static const luaL_Reg keycodeslib[] = {
+    // module methods
     {"_newcallback", keycodes_newcallback},
     {"_cachemap", keycodes_cachemap},
+    
     {}
 };
 
 int luaopen_mj_keycodes_internal(lua_State* L) {
+    luaL_newlib(L, keycodeslib);
+    
     if (luaL_newmetatable(L, "mj.keycodes.callback")) {
-        lua_pushvalue(L, -1);
+        luaL_newlib(L, callbacklib);
         lua_setfield(L, -2, "__index");
-        
-        lua_pushcfunction(L, keycodes_callback_stop);
-        lua_setfield(L, -2, "stop");
-        
-        lua_pushcfunction(L, keycodes_callback_gc);
-        lua_setfield(L, -2, "__gc");
     }
     lua_pop(L, 1);
-    
-    lua_newtable(L);
-    for (luaL_Reg* l = keycodeslib; l->name; l++) {
-        lua_pushcfunction(L, l->func);
-        lua_setfield(L, -2, l->name);
-    }
     
     return 1;
 }

@@ -23,9 +23,7 @@ keycodes.map = keycodes._cachemap()
 function keycodes.inputsourcechanged(fn)
   fn = fn or function()end
   keycodes._callback = keycodes._newcallback(function()
-      if keycodes._callback then
-        keycodes._callback:stop()
-      end
+      if keycodes._callback then keycodes._callback:_stop() end
       keycodes.map = keycodes._cachemap()
       local ok, err = xpcall(fn, debug.traceback)
       if not ok then mj.showerror(err) end
