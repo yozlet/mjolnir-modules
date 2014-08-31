@@ -4,7 +4,7 @@
 --- mj.keycodes.map = {...}
 --- A mapping from string representation of a key to its keycode, and vice versa.
 --- For example: keycodes[1] == "s", and keycodes["s"] == 1, and so on.
---- This is primarily used by the core.eventtap and core.hotkey extensions.
+--- This is primarily used by the mj.eventtap and mj.hotkey extensions.
 ---
 --- Valid strings are any single-character string, or any of the following strings:
 ---
