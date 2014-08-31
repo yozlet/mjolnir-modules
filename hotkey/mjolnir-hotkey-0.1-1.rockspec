@@ -18,6 +18,6 @@ build = {
   type = "builtin",
   modules = {
     ["mj.hotkey"] = "hotkey.lua",
-    ["mj.hotkey.internal"] = "hotkey-internal.m",
+    ["mj.hotkey.internal"] = "hotkey.m",
   },
 }
