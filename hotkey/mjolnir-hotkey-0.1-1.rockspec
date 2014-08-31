@@ -12,7 +12,7 @@ description = {
 supported_platforms = {"macosx"}
 dependencies = {
   "lua >= 5.2",
-  "mj.keycodes",
+  "mjolnir-keycodes",
 }
 build = {
   type = "builtin",
