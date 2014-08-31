@@ -1,7 +1,7 @@
-#import "window.h"
-
 #import <Cocoa/Cocoa.h>
 #import <lauxlib.h>
+#import "window.h"
+#import "application.h"
 
 extern AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 
@@ -92,7 +92,7 @@ static int window_focusedwindow(lua_State* L) {
 
 static id get_window_prop(AXUIElementRef win, NSString* propType, id defaultValue) {
     CFTypeRef _someProperty;
-    if (AXUIElementCopyAttributeValue(win, (__bridge CFStringRef)propType, &_someProperty) == kAXErrorSuccess)
+    if (AXUIElementCopyAttributeValue(win, (CFStringRef)propType, &_someProperty) == kAXErrorSuccess)
         return CFBridgingRelease(_someProperty);
     
     return defaultValue;
@@ -100,7 +100,7 @@ static id get_window_prop(AXUIElementRef win, NSString* propType, id defaultValu
 
 static BOOL set_window_prop(AXUIElementRef win, NSString* propType, id value) {
     if ([value isKindOfClass:[NSNumber class]]) {
-        AXError result = AXUIElementSetAttributeValue(win, (__bridge CFStringRef)(propType), (__bridge CFTypeRef)(value));
+        AXError result = AXUIElementSetAttributeValue(win, (CFStringRef)(propType), (CFTypeRef)(value));
         if (result == kAXErrorSuccess)
             return YES;
     }
@@ -145,7 +145,7 @@ static int window_isstandard(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
     NSString* subrole = get_window_prop(win, NSAccessibilitySubroleAttribute, @"");
     
-    BOOL is_standard = [subrole isEqualToString: (__bridge NSString*)kAXStandardWindowSubrole];
+    BOOL is_standard = [subrole isEqualToString: (NSString*)kAXStandardWindowSubrole];
     lua_pushboolean(L, is_standard);
     return 1;
 }
@@ -328,15 +328,9 @@ static int window_pid(lua_State* L) {
 /// mj.window:application() -> app
 /// Returns the app that the window belongs to; may be nil.
 static int window_application(lua_State* L) {
-    AXUIElementRef win = get_window_arg(L, 1);
-    
-    pid_t pid = 0;
-    if (AXUIElementGetPid(win, &pid) == kAXErrorSuccess) {
-        lua_getglobal(L, "core");
-        lua_getfield(L, -1, "application");
-        lua_getfield(L, -1, "applicationforpid");
-        lua_pushnumber(L, pid);
-        lua_call(L, 1, 1);
+    if (window_pid(L)) {
+        pid_t pid = lua_tonumber(L, -1);
+        new_application(L, pid);
     }
     else {
         lua_pushnil(L);

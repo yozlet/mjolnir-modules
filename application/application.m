@@ -155,7 +155,7 @@ static int application__focusedwindow(lua_State* L) {
     
     AXUIElementRef app = get_app(L, 1);
     CFTypeRef window;
-    if (AXUIElementCopyAttributeValue(app, (__bridge CFStringRef)NSAccessibilityFocusedWindowAttribute, &window) == kAXErrorSuccess) {
+    if (AXUIElementCopyAttributeValue(app, (CFStringRef)NSAccessibilityFocusedWindowAttribute, &window) == kAXErrorSuccess) {
         new_window(L, window);
     }
     else {
@@ -212,7 +212,7 @@ static int application_bundleid(lua_State* L) {
 /// Unhides the app (and all its windows) if it's hidden.
 static int application_unhide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
-    BOOL success = (AXUIElementSetAttributeValue(app, (__bridge CFStringRef)NSAccessibilityHiddenAttribute, kCFBooleanFalse) == kAXErrorSuccess);
+    BOOL success = (AXUIElementSetAttributeValue(app, (CFStringRef)NSAccessibilityHiddenAttribute, kCFBooleanFalse) == kAXErrorSuccess);
     lua_pushboolean(L, success);
     return 1;
 }
@@ -221,7 +221,7 @@ static int application_unhide(lua_State* L) {
 /// Hides the app (and all its windows).
 static int application_hide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
-    BOOL success = (AXUIElementSetAttributeValue(app, (__bridge CFStringRef)NSAccessibilityHiddenAttribute, kCFBooleanTrue) == kAXErrorSuccess);
+    BOOL success = (AXUIElementSetAttributeValue(app, (CFStringRef)NSAccessibilityHiddenAttribute, kCFBooleanTrue) == kAXErrorSuccess);
     lua_pushboolean(L, success);
     return 1;
 }

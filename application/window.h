@@ -1,4 +1,9 @@
+#ifndef Window_application_h
+#define Window_application_h
+
 #import <Foundation/Foundation.h>
 #import <lua.h>
 
 void new_window(lua_State* L, AXUIElementRef win);
+
+#endif
