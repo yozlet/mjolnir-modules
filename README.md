@@ -8,4 +8,7 @@ $ moonrocks install mjolnir-keycodes
 
 # Create and manage global hotkeys.
 $ moonrocks install mjolnir-hotkey
+
+# Super-helpful functional programming utilities.
+$ moonrocks install mjolnir-fnutils
 ~~~
