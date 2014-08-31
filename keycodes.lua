@@ -21,12 +21,13 @@ keycodes.map = keycodes._cachemap()
 --- Sets the function to be called when your input source (i.e. qwerty, dvorak, colemac) changes.
 --- You can use this to rebind your hotkeys or whatever.
 function keycodes.inputsourcechanged(fn)
-  fn = fn or function()end
+  if keycodes._callback then keycodes._callback:_stop() end
   keycodes._callback = keycodes._newcallback(function()
-      if keycodes._callback then keycodes._callback:_stop() end
       keycodes.map = keycodes._cachemap()
-      local ok, err = xpcall(fn, debug.traceback)
-      if not ok then mj.showerror(err) end
+      if fn then
+        local ok, err = xpcall(fn, debug.traceback)
+        if not ok then mj.showerror(err) end
+      end
   end)
 end
 
