@@ -15,20 +15,21 @@ local hotkey = require "mj.hotkey.internal"
 ---
 --- The `releasedfn` parameter is the function that will be called when this hotkey is released; this field is optional (i.e. may be nil or omitted).
 
+local function wrap(fn)
+  return function()
+    if fn then
+      local ok, err = xpcall(fn, debug.traceback)
+      if not ok then mj.showerror(err) end
+    end
+  end
+end
 
 function hotkey.new(mods, key, pressedfn, releasedfn)
   local keycodes = require "mj.keycodes"
   local keycode = keycodes.map[key]
 
-  local function _pressedfn()
-    local ok, err = xpcall(pressedfn, debug.traceback)
-    if not ok then mj.showerror(err) end
-  end
-
-  local function _releasedfn()
-    local ok, err = xpcall(releasedfn, debug.traceback)
-    if not ok then mj.showerror(err) end
-  end
+  local _pressedfn = wrap(pressedfn)
+  local _releasedfn = wrap(releasedfn)
 
   local k = hotkey._new(mods, keycode, _pressedfn, _releasedfn)
   return k

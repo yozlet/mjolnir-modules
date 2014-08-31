@@ -36,6 +36,7 @@ static int hotkey_new(lua_State* L) {
     luaL_checktype(L, 1, LUA_TTABLE);
     UInt32 keycode = luaL_checknumber(L, 2);
     luaL_checktype(L, 3, LUA_TFUNCTION);
+    luaL_checktype(L, 4, LUA_TFUNCTION);
     lua_settop(L, 4);
     
     hotkey_t* hotkey = lua_newuserdata(L, sizeof(hotkey_t));
@@ -134,10 +135,8 @@ static OSStatus hotkey_callback(EventHandlerCallRef __attribute__ ((unused)) inH
     lua_pop(L, 1);
     
     int ref = (GetEventKind(inEvent) == kEventHotKeyPressed ? hotkey->pressedfn : hotkey->releasedfn);
-    if (ref != LUA_REFNIL) {
-        lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-        lua_call(L, 0, 0);
-    }
+    lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+    lua_call(L, 0, 0);
     
     return noErr;
 }
@@ -148,8 +147,12 @@ int luaopen_mj_hotkey_internal(lua_State* L) {
     luaL_newlib(L, hotkeylib);
     
     // watch for hotkey events
+    EventHandlerRef handler;
+    
     EventTypeSpec hotKeyPressedSpec[] = {{kEventClassKeyboard, kEventHotKeyPressed}, {kEventClassKeyboard, kEventHotKeyReleased}};
-    InstallEventHandler(GetEventDispatcherTarget(), hotkey_callback, sizeof(hotKeyPressedSpec) / sizeof(EventTypeSpec), hotKeyPressedSpec, L, NULL);
+    InstallEventHandler(GetEventDispatcherTarget(), hotkey_callback, sizeof(hotKeyPressedSpec) / sizeof(EventTypeSpec), hotKeyPressedSpec, L, &handler);
+    
+//    RemoveEventHandler(handler);
     
     // put hotkey in registry; necessary for luaL_checkudata()
     lua_pushvalue(L, -1);
