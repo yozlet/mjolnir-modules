@@ -21,14 +21,6 @@ static void* push_hotkey(lua_State* L, int x) {
     return lua_touserdata(L, -1);
 }
 
-static void remove_all_hotkeys(lua_State* L) {
-    [[handlers copy] enumerateIndexesUsingBlock:^(NSUInteger x, BOOL __attribute__ ((unused)) *stop) {
-        lua_pushvalue(L, -1);
-        push_hotkey(L, (int)x);
-        lua_call(L, 1, 0);
-    }];
-}
-
 typedef struct _hotkey_t {
     UInt32 mods;
     UInt32 keycode;
@@ -40,45 +32,28 @@ typedef struct _hotkey_t {
 } hotkey_t;
 
 
-/// mj.hotkey.new(mods, key, pressedfn, releasedfn = nil) -> hotkey
-/// Creates a new hotkey that can be enabled.
-///
-/// The `mods` parameter is case-insensitive and may contain any of the following strings: "cmd", "ctrl", "alt", or "shift".
-///
-/// The `key` parameter is case-insensitive and may be any string value found in mj.keycodes.map
-///
-/// The `pressedfn` parameter is the function that will be called when this hotkey is pressed.
-///
-/// The `releasedfn` parameter is the function that will be called when this hotkey is released; this field is optional (i.e. may be nil or omitted).
 static int hotkey_new(lua_State* L) {
     luaL_checktype(L, 1, LUA_TTABLE);
-    const char* key = [[[NSString stringWithUTF8String:luaL_checkstring(L, 2)] lowercaseString] UTF8String];
+    UInt32 keycode = luaL_checknumber(L, 2);
     luaL_checktype(L, 3, LUA_TFUNCTION);
     lua_settop(L, 4);
     
     hotkey_t* hotkey = lua_newuserdata(L, sizeof(hotkey_t));
     memset(hotkey, 0, sizeof(hotkey_t));
     
-    // push releasedfn
-    lua_pushvalue(L, 4);
-    hotkey->releasedfn = luaL_ref(L, LUA_REGISTRYINDEX);
+    hotkey->keycode = keycode;
     
-    // set global 'hotkey' as its metatable
+    // use 'mj.hotkey' metatable
     luaL_getmetatable(L, "mj.hotkey");
     lua_setmetatable(L, -2);
     
-    // store function
+    // store pressedfn
     lua_pushvalue(L, 3);
     hotkey->pressedfn = luaL_ref(L, LUA_REGISTRYINDEX);
     
-    // get keycode
-    lua_getglobal(L, "core");
-    lua_getfield(L, -1, "keycodes");
-    lua_getfield(L, -1, "map");
-    lua_pushstring(L, key);
-    lua_gettable(L, -2);
-    hotkey->keycode = lua_tonumber(L, -1);
-    lua_pop(L, 4);
+    // store releasedfn
+    lua_pushvalue(L, 4);
+    hotkey->releasedfn = luaL_ref(L, LUA_REGISTRYINDEX);
     
     // save mods
     lua_pushnil(L);
@@ -113,42 +88,34 @@ static int hotkey_enable(lua_State* L) {
     return 1;
 }
 
-/// mj.hotkey:disable() -> self
-/// Disables the given hotkey; does not remove it from mj.hotkey.keys.
-static int hotkey_disable(lua_State* L) {
-    hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
-    lua_settop(L, 1);
-    
+static void stop(lua_State* L, hotkey_t* hotkey) {
     if (!hotkey->enabled)
-        return 1;
+        return;
     
     hotkey->enabled = NO;
     remove_hotkey(L, hotkey->uid);
     UnregisterEventHotKey(hotkey->carbonHotKey);
-    
-    return 1;
 }
 
-/// mj.hotkey.disableall()
-/// Disables all hotkeys; automatically called when user config reloads.
-static int hotkey_disableall(lua_State* L) {
-    lua_getglobal(L, "core");
-    lua_getfield(L, -1, "hotkey");
-    lua_getfield(L, -1, "disable");
-    remove_all_hotkeys(L);
-    return 0;
+/// mj.hotkey:disable() -> self
+/// Disables the given hotkey; does not remove it from mj.hotkey.keys.
+static int hotkey_disable(lua_State* L) {
+    hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
+    stop(L, hotkey);
+    lua_pushvalue(L, 1);
+    return 1;
 }
 
 static int hotkey_gc(lua_State* L) {
     hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
+    stop(L, hotkey);
     luaL_unref(L, LUA_REGISTRYINDEX, hotkey->pressedfn);
     luaL_unref(L, LUA_REGISTRYINDEX, hotkey->releasedfn);
     return 0;
 }
 
 static const luaL_Reg hotkeylib[] = {
-    {"new", hotkey_new},
-    {"disableall", hotkey_disableall},
+    {"_new", hotkey_new},
     
     {"enable", hotkey_enable},
     {"disable", hotkey_disable},
