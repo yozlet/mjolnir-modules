@@ -255,6 +255,16 @@ static int application_kind(lua_State* L) {
     return 1;
 }
 
+/// mj.application.launchorfocus(name) -> bool
+/// Launches the app with the given name, or activates it if it's already running.
+/// Returns true if it launched or was already launched; otherwise false (presumably only if the app doesn't exist).
+static int application_launchorfocus(lua_State* L) {
+    NSString* name = [NSString stringWithUTF8String: luaL_checkstring(L, 1)];
+    BOOL success = [[NSWorkspace sharedWorkspace] launchApplication: name];
+    lua_pushboolean(L, success);
+    return 1;
+}
+
 static const luaL_Reg applicationlib[] = {
     {"runningapplications", application_runningapplications},
     {"applicationforpid", application_applicationforpid},
@@ -275,6 +285,7 @@ static const luaL_Reg applicationlib[] = {
     {"pid", application_pid},
     {"isunresponsive", application_isunresponsive},
     {"kind", application_kind},
+    {"launchorfocus", application_launchorfocus},
     
     {NULL, NULL}
 };

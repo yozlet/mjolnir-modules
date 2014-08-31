@@ -12,12 +12,6 @@ function application:visiblewindows()
   return fnutils.filter(self:allwindows(), window.isvisible)
 end
 
---- mj.application.launchorfocus(name)
---- Launches the app with the given name, or activates it if it's already running.
-function application.launchorfocus(name)
-  os.execute("open -a \"" .. name .. "\"")
-end
-
 --- mj.application:activate(allwindows = false) -> bool
 --- Tries to activate the app (make its key window focused) and returns whether it succeeded; if allwindows is true, all windows of the application are brought forward as well.
 function application:activate(allwindows)
