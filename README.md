@@ -14,4 +14,7 @@ $ moonrocks install mjolnir-fnutils
 
 # Mathy stuff.
 $ moonrocks install mjolnir-geometry
+
+# Inspect and manipulate screens (i.e. monitors).
+$ moonrocks install mjolnir-screen
 ~~~
