@@ -48,17 +48,6 @@ static int window_eq(lua_State* L) {
     return 1;
 }
 
-void new_window(lua_State* L, AXUIElementRef win) {
-    AXUIElementRef* winptr = lua_newuserdata(L, sizeof(AXUIElementRef));
-    *winptr = win;
-    
-    luaL_getmetatable(L, "mj.window");
-    lua_setmetatable(L, -2);
-    
-    lua_newtable(L);
-    lua_setuservalue(L, -2);
-}
-
 static AXUIElementRef system_wide_element() {
     static AXUIElementRef element;
     static dispatch_once_t onceToken;

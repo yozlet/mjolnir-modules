@@ -4,6 +4,15 @@
 #import <Foundation/Foundation.h>
 #import <lua.h>
 
-void new_window(lua_State* L, AXUIElementRef win);
+static void new_window(lua_State* L, AXUIElementRef win) {
+    AXUIElementRef* winptr = lua_newuserdata(L, sizeof(AXUIElementRef));
+    *winptr = win;
+    
+    luaL_getmetatable(L, "mj.window");
+    lua_setmetatable(L, -2);
+    
+    lua_newtable(L);
+    lua_setuservalue(L, -2);
+}
 
 #endif

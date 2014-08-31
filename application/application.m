@@ -1,6 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
 #import <lauxlib.h>
+#import "application.h"
 #import "window.h"
 
 #define get_app(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "mj.application"))
@@ -26,19 +27,6 @@ static int application_gc(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
     CFRelease(app);
     return 0;
-}
-
-void new_application(lua_State* L, pid_t pid) {
-    AXUIElementRef* appptr = lua_newuserdata(L, sizeof(AXUIElementRef));
-    *appptr = AXUIElementCreateApplication(pid);
-    
-    luaL_getmetatable(L, "mj.application");
-    lua_setmetatable(L, -2);
-    
-    lua_newtable(L);
-    lua_pushnumber(L, pid);
-    lua_setfield(L, -2, "pid");
-    lua_setuservalue(L, -2);
 }
 
 /// mj.application.runningapplications() -> app[]
