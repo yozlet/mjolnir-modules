@@ -1,5 +1,5 @@
 package = "mjolnir-application"
-version = "0.2-1"
+version = "0.3-1"
 local url = "github.com/mjolnir-io/mjolnir-core"
 local desc = "Mjolnir module to inspect and manipulate running applications and their windows."
 source = {url = "git://" .. url}
