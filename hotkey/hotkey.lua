@@ -26,7 +26,7 @@ end
 
 function hotkey.new(mods, key, pressedfn, releasedfn)
   local keycodes = require "mj.keycodes"
-  local keycode = keycodes.map[key]
+  local keycode = keycodes.map[key:lower()]
 
   local _pressedfn = wrap(pressedfn)
   local _releasedfn = wrap(releasedfn)
