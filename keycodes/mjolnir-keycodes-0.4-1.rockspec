@@ -1,5 +1,5 @@
 package = "mjolnir-keycodes"
-version = "0.3-1"
+version = "0.4-1"
 local u = "git://github.com/mjolnir-io/mjolnir-core"
 local d = "Mjolnir module to convert between key-strings and key-codes."
 source = {url = u}
@@ -11,7 +11,7 @@ description = {
 }
 supported_platforms = {"macosx"}
 dependencies = {
-  "lua >= 5.1, < 5.3",
+  "lua >= 5.2",
 }
 build = {
   type = "builtin",
