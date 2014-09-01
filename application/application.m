@@ -30,7 +30,7 @@ static int application_gc(lua_State* L) {
 }
 
 /// mj.application.runningapplications() -> app[]
-/// Function
+/// Constructor
 /// Returns all running apps.
 static int application_runningapplications(lua_State* L) {
     lua_newtable(L);
@@ -45,7 +45,7 @@ static int application_runningapplications(lua_State* L) {
 }
 
 /// mj.application.applicationforpid(pid) -> app or nil
-/// Function
+/// Constructor
 /// Returns the running app for the given pid, if it exists.
 static int application_applicationforpid(lua_State* L) {
     pid_t pid = luaL_checknumber(L, 1);
@@ -61,7 +61,7 @@ static int application_applicationforpid(lua_State* L) {
 }
 
 /// mj.application.applicationsforbundleid(bundleid) -> app[]
-/// Function
+/// Constructor
 /// Returns any running apps that have the given bundleid.
 static int application_applicationsforbundleid(lua_State* L) {
     const char* bundleid = luaL_checkstring(L, 1);

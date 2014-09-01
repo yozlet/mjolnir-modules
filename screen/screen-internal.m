@@ -112,7 +112,7 @@ void new_screen(lua_State* L, NSScreen* screen) {
 }
 
 /// mj.screen.allscreens() -> screen[]
-/// Function
+/// Constructor
 /// Returns all the screens there are.
 static int screen_allscreens(lua_State* L) {
     lua_newtable(L);
@@ -128,7 +128,7 @@ static int screen_allscreens(lua_State* L) {
 }
 
 /// mj.screen.mainscreen() -> screen
-/// Function
+/// Constructor
 /// Returns the 'main' screen, i.e. the one containing the currently focused window.
 static int screen_mainscreen(lua_State* L) {
     new_screen(L, [NSScreen mainScreen]);

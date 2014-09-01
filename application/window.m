@@ -58,7 +58,7 @@ static AXUIElementRef system_wide_element() {
 }
 
 /// mj.window.focusedwindow() -> window
-/// Function
+/// Constructor
 /// Returns the focused window, or nil.
 static int window_focusedwindow(lua_State* L) {
     CFTypeRef app;
