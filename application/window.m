@@ -427,7 +427,7 @@ static const luaL_Reg windowlib[] = {
     {}
 };
 
-int luaopen_mj_window_internal(lua_State* L) {
+int luaopen_mjolnir_window_internal(lua_State* L) {
     luaL_newlib(L, windowlib);
     
     if (luaL_newmetatable(L, "mjolnir.window")) {

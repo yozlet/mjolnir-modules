@@ -148,7 +148,7 @@ static const luaL_Reg screenlib[] = {
     {NULL, NULL}
 };
 
-int luaopen_mj_screen_internal(lua_State* L) {
+int luaopen_mjolnir_screen_internal(lua_State* L) {
     luaL_newlib(L, screenlib);
     
     if (luaL_newmetatable(L, "mjolnir.screen")) {

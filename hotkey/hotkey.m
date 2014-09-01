@@ -145,7 +145,7 @@ static OSStatus hotkey_callback(EventHandlerCallRef __attribute__ ((unused)) inH
     return noErr;
 }
 
-int luaopen_mj_hotkey_internal(lua_State* L) {
+int luaopen_mjolnir_hotkey_internal(lua_State* L) {
     if (handlers) [handlers release];
     handlers = [[NSMutableIndexSet indexSet] retain];
     

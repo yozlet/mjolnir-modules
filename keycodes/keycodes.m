@@ -241,7 +241,7 @@ static const luaL_Reg keycodeslib[] = {
     {}
 };
 
-int luaopen_mj_keycodes_internal(lua_State* L) {
+int luaopen_mjolnir_keycodes_internal(lua_State* L) {
     luaL_newlib(L, keycodeslib);
     
     if (luaL_newmetatable(L, "mjolnir.keycodes.callback")) {

@@ -305,7 +305,7 @@ static const luaL_Reg applicationlib[] = {
     {NULL, NULL}
 };
 
-int luaopen_mj_application_internal(lua_State* L) {
+int luaopen_mjolnir_application_internal(lua_State* L) {
     luaL_newlib(L, applicationlib);
     
     if (luaL_newmetatable(L, "mjolnir.application")) {

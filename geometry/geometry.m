@@ -51,7 +51,7 @@ static const luaL_Reg geometrylib[] = {
     {NULL, NULL}
 };
 
-int luaopen_mj_geometry_internal(lua_State* L) {
+int luaopen_mjolnir_geometry_internal(lua_State* L) {
     luaL_newlib(L, geometrylib);
     return 1;
 }
