@@ -16,6 +16,7 @@ local window = require "mjolnir.window.internal"
 local application = require "mjolnir.application.internal"
 local fnutils = require "mjolnir.fnutils"
 local geometry = require "mjolnir.geometry"
+local mj_screen = require "mjolnir.screen"
 
 
 --- mjolnir.window.allwindows() -> win[]
@@ -118,11 +119,6 @@ end
 --- Method
 --- Get the screen which most contains this window (by area).
 function window:screen()
-  local mj_screen
-  if not pcall(function() mj_screen = require"mjolnir.screen" end) then
-    error "this method requires mjolnir-screen to be installed"
-  end
-
   local windowframe = self:frame()
   local lastvolume = 0
   local lastscreen = nil
