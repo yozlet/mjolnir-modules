@@ -5,7 +5,7 @@
 
 extern AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 
-#define get_window_arg(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "mj.window"))
+#define get_window_arg(L, idx) *((AXUIElementRef*)luaL_checkudata(L, idx, "mjolnir.window"))
 
 static NSSize geom_tosize(lua_State* L, int idx) {
     luaL_checktype(L, idx, LUA_TTABLE);
@@ -57,7 +57,7 @@ static AXUIElementRef system_wide_element() {
     return element;
 }
 
-/// mj.window.focusedwindow() -> window
+/// mjolnir.window.focusedwindow() -> window
 /// Constructor
 /// Returns the focused window, or nil.
 static int window_focusedwindow(lua_State* L) {
@@ -97,7 +97,7 @@ static BOOL set_window_prop(AXUIElementRef win, NSString* propType, id value) {
     return NO;
 }
 
-/// mj.window:title() -> string
+/// mjolnir.window:title() -> string
 /// Method
 /// Returns the title of the window (as UTF8).
 static int window_title(lua_State* L) {
@@ -108,7 +108,7 @@ static int window_title(lua_State* L) {
     return 1;
 }
 
-/// mj.window:subrole() -> string
+/// mjolnir.window:subrole() -> string
 /// Method
 /// Returns the subrole of the window, whatever that means.
 static int window_subrole(lua_State* L) {
@@ -120,7 +120,7 @@ static int window_subrole(lua_State* L) {
     return 1;
 }
 
-/// mj.window:role() -> string
+/// mjolnir.window:role() -> string
 /// Method
 /// Returns the role of the window, whatever that means.
 static int window_role(lua_State* L) {
@@ -132,7 +132,7 @@ static int window_role(lua_State* L) {
     return 1;
 }
 
-/// mj.window:isstandard() -> bool
+/// mjolnir.window:isstandard() -> bool
 /// Method
 /// True if the window's subrole indicates it's 'a standard window'.
 static int window_isstandard(lua_State* L) {
@@ -144,7 +144,7 @@ static int window_isstandard(lua_State* L) {
     return 1;
 }
 
-/// mj.window:topleft() -> point
+/// mjolnir.window:topleft() -> point
 /// Method
 /// The top-left corner of the window in absolute coordinates.
 static int window_topleft(lua_State* L) {
@@ -170,7 +170,7 @@ static int window_topleft(lua_State* L) {
     return 1;
 }
 
-/// mj.window:size() -> size
+/// mjolnir.window:size() -> size
 /// Method
 /// The size of the window.
 static int window_size(lua_State* L) {
@@ -196,7 +196,7 @@ static int window_size(lua_State* L) {
     return 1;
 }
 
-/// mj.window:settopleft(point)
+/// mjolnir.window:settopleft(point)
 /// Method
 /// Moves the window to the given point in absolute coordinate.
 static int window_settopleft(lua_State* L) {
@@ -211,7 +211,7 @@ static int window_settopleft(lua_State* L) {
     return 0;
 }
 
-/// mj.window:setsize(size)
+/// mjolnir.window:setsize(size)
 /// Method
 /// Resizes the window.
 static int window_setsize(lua_State* L) {
@@ -226,7 +226,7 @@ static int window_setsize(lua_State* L) {
     return 0;
 }
 
-/// mj.window:close() -> bool
+/// mjolnir.window:close() -> bool
 /// Method
 /// Closes the window; returns whether it succeeded.
 static int window_close(lua_State* L) {
@@ -247,7 +247,7 @@ cleanup:
     return 1;
 }
 
-/// mj.window:setfullscreen(bool) -> bool
+/// mjolnir.window:setfullscreen(bool) -> bool
 /// Method
 /// Sets whether the window is full screen; returns whether it succeeded.
 static int window_setfullscreen(lua_State* L) {
@@ -258,7 +258,7 @@ static int window_setfullscreen(lua_State* L) {
     return 1;
 }
 
-/// mj.window:isfullscreen() -> bool or nil
+/// mjolnir.window:isfullscreen() -> bool or nil
 /// Method
 /// Returns whether the window is full screen, or nil if asking that question fails.
 static int window_isfullscreen(lua_State* L) {
@@ -282,7 +282,7 @@ cleanup:
     return 1;
 }
 
-/// mj.window:minimize()
+/// mjolnir.window:minimize()
 /// Method
 /// Minimizes the window.
 static int window_minimize(lua_State* L) {
@@ -292,7 +292,7 @@ static int window_minimize(lua_State* L) {
     return 0;
 }
 
-/// mj.window:unminimize()
+/// mjolnir.window:unminimize()
 /// Method
 /// Un-minimizes the window.
 static int window_unminimize(lua_State* L) {
@@ -302,7 +302,7 @@ static int window_unminimize(lua_State* L) {
     return 0;
 }
 
-/// mj.window:isminimized() -> bool
+/// mjolnir.window:isminimized() -> bool
 /// Method
 /// True if the window is currently minimized in the dock.
 static int window_isminimized(lua_State* L) {
@@ -329,7 +329,7 @@ static int window_pid(lua_State* L) {
     }
 }
 
-/// mj.window:application() -> app
+/// mjolnir.window:application() -> app
 /// Method
 /// Returns the app that the window belongs to; may be nil.
 static int window_application(lua_State* L) {
@@ -343,7 +343,7 @@ static int window_application(lua_State* L) {
     return 1;
 }
 
-/// mj.window:becomemain() -> bool
+/// mjolnir.window:becomemain() -> bool
 /// Method
 /// Make this window the main window of the given application; deos not implicitly focus the app.
 static int window_becomemain(lua_State* L) {
@@ -371,7 +371,7 @@ static int window__orderedwinids(lua_State* L) {
     return 1;
 }
 
-/// mj.window:id() -> number, sometimes nil
+/// mjolnir.window:id() -> number, sometimes nil
 /// Method
 /// Returns a unique number identifying this window.
 static int window_id(lua_State* L) {
@@ -430,7 +430,7 @@ static const luaL_Reg windowlib[] = {
 int luaopen_mj_window_internal(lua_State* L) {
     luaL_newlib(L, windowlib);
     
-    if (luaL_newmetatable(L, "mj.window")) {
+    if (luaL_newmetatable(L, "mjolnir.window")) {
         lua_pushvalue(L, -2);
         lua_setfield(L, -2, "__index");
         

@@ -2,7 +2,7 @@
 #import <IOKit/graphics/IOGraphicsLib.h>
 #import <lauxlib.h>
 
-#define get_screen_arg(L, idx) *((NSScreen**)luaL_checkudata(L, idx, "mj.screen"))
+#define get_screen_arg(L, idx) *((NSScreen**)luaL_checkudata(L, idx, "mjolnir.screen"))
 
 static void geom_pushrect(lua_State* L, NSRect rect) {
     lua_newtable(L);
@@ -24,7 +24,7 @@ static int screen_visibleframe(lua_State* L) {
     return 1;
 }
 
-/// mj.screen:id(screen) -> number
+/// mjolnir.screen:id(screen) -> number
 /// Method
 /// Returns a screen's unique ID.
 static int screen_id(lua_State* L) {
@@ -33,7 +33,7 @@ static int screen_id(lua_State* L) {
     return 1;
 }
 
-/// mj.screen:name(screen) -> string
+/// mjolnir.screen:name(screen) -> string
 /// Method
 /// Returns the preferred name for the screen set by the manufacturer.
 static int screen_name(lua_State* L) {
@@ -52,7 +52,7 @@ static int screen_name(lua_State* L) {
     return 1;
 }
 
-/// mj.screen.settint(redarray, greenarray, bluearray)
+/// mjolnir.screen.settint(redarray, greenarray, bluearray)
 /// Function
 /// Set the tint on a screen; experimental.
 static int screen_settint(lua_State* L) {
@@ -107,11 +107,11 @@ void new_screen(lua_State* L, NSScreen* screen) {
     NSScreen** screenptr = lua_newuserdata(L, sizeof(NSScreen**));
     *screenptr = [screen retain];
     
-    luaL_getmetatable(L, "mj.screen");
+    luaL_getmetatable(L, "mjolnir.screen");
     lua_setmetatable(L, -2);
 }
 
-/// mj.screen.allscreens() -> screen[]
+/// mjolnir.screen.allscreens() -> screen[]
 /// Constructor
 /// Returns all the screens there are.
 static int screen_allscreens(lua_State* L) {
@@ -127,7 +127,7 @@ static int screen_allscreens(lua_State* L) {
     return 1;
 }
 
-/// mj.screen.mainscreen() -> screen
+/// mjolnir.screen.mainscreen() -> screen
 /// Constructor
 /// Returns the 'main' screen, i.e. the one containing the currently focused window.
 static int screen_mainscreen(lua_State* L) {
@@ -151,7 +151,7 @@ static const luaL_Reg screenlib[] = {
 int luaopen_mj_screen_internal(lua_State* L) {
     luaL_newlib(L, screenlib);
     
-    if (luaL_newmetatable(L, "mj.screen")) {
+    if (luaL_newmetatable(L, "mjolnir.screen")) {
         lua_pushvalue(L, -2);
         lua_setfield(L, -2, "__index");
         

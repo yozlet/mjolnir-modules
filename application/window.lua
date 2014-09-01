@@ -1,38 +1,38 @@
---- === mj.window ===
+--- === mjolnir.window ===
 ---
 --- Functions for managing any window.
 ---
---- To get windows, see `mj.window.focusedwindow` and `mj.window.visiblewindows`.
+--- To get windows, see `mjolnir.window.focusedwindow` and `mjolnir.window.visiblewindows`.
 ---
---- To get window geometrical attributes, see `mj.window.{frame,size,topleft}`.
+--- To get window geometrical attributes, see `mjolnir.window.{frame,size,topleft}`.
 ---
---- To move and resize windows, see `mj.window.set{frame,size,topleft}`.
+--- To move and resize windows, see `mjolnir.window.set{frame,size,topleft}`.
 ---
---- It may be handy to get a window's app or screen via `mj.window.application` and `mj.window.screen`.
+--- It may be handy to get a window's app or screen via `mjolnir.window.application` and `mjolnir.window.screen`.
 ---
 --- See the `screen` module for detailed explanation of how Hydra uses window/screen coordinates.
 
-local window = require "mj.window.internal"
-local application = require "mj.application.internal"
-local fnutils = require "mj.fnutils"
-local geometry = require "mj.geometry"
+local window = require "mjolnir.window.internal"
+local application = require "mjolnir.application.internal"
+local fnutils = require "mjolnir.fnutils"
+local geometry = require "mjolnir.geometry"
 
 
---- mj.window.allwindows() -> win[]
+--- mjolnir.window.allwindows() -> win[]
 --- Function
 --- Returns all windows
 function window.allwindows()
   return fnutils.mapcat(application.runningapplications(), application.allwindows)
 end
 
---- mj.window.windowforid() -> win or nil
+--- mjolnir.window.windowforid() -> win or nil
 --- Function
 --- Returns the window for the given id, or nil if it's an invalid id.
 function window.windowforid(id)
   return fnutils.find(window.allwindows(), function(win) return win:id() == id end)
 end
 
---- mj.window:isvisible() -> bool
+--- mjolnir.window:isvisible() -> bool
 --- Method
 --- True if the app is not hidden and the window is not minimized.
 --- NOTE: some apps (e.g. in Adobe Creative Cloud) have literally-invisible windows and also like to put them very far offscreen; this method may return true for such windows.
@@ -40,7 +40,7 @@ function window:isvisible()
   return not self:application():ishidden() and not self:isminimized()
 end
 
---- mj.window:frame() -> rect
+--- mjolnir.window:frame() -> rect
 --- Method
 --- Get the frame of the window in absolute coordinates.
 function window:frame()
@@ -49,7 +49,7 @@ function window:frame()
   return {x = tl.x, y = tl.y, w = s.w, h = s.h}
 end
 
---- mj.window:setframe(rect)
+--- mjolnir.window:setframe(rect)
 --- Method
 --- Set the frame of the window in absolute coordinates.
 function window:setframe(f)
@@ -58,35 +58,35 @@ function window:setframe(f)
   self:setsize(f)
 end
 
---- mj.window:otherwindows_samescreen() -> win[]
+--- mjolnir.window:otherwindows_samescreen() -> win[]
 --- Method
 --- Get other windows on the same screen as self.
 function window:otherwindows_samescreen()
   return fnutils.filter(window.visiblewindows(), function(win) return self ~= win and self:screen() == win:screen() end)
 end
 
---- mj.window:otherwindows_allscreens() -> win[]
+--- mjolnir.window:otherwindows_allscreens() -> win[]
 --- Method
 --- Get every window except this one.
 function window:otherwindows_allscreens()
   return fnutils.filter(window.visiblewindows(), function(win) return self ~= win end)
 end
 
---- mj.window:focus() -> bool
+--- mjolnir.window:focus() -> bool
 --- Method
 --- Try to make this window focused.
 function window:focus()
   return self:becomemain() and self:application():_bringtofront()
 end
 
---- mj.window.visiblewindows() -> win[]
+--- mjolnir.window.visiblewindows() -> win[]
 --- Function
 --- Get all windows on all screens that match window.isvisible.
 function window.visiblewindows()
   return fnutils.filter(window:allwindows(), window.isvisible)
 end
 
---- mj.window.orderedwindows() -> win[]
+--- mjolnir.window.orderedwindows() -> win[]
 --- Function
 --- Returns all visible windows, ordered from front to back.
 function window.orderedwindows()
@@ -106,7 +106,7 @@ function window.orderedwindows()
   return orderedwins
 end
 
---- mj.window:maximize()
+--- mjolnir.window:maximize()
 --- Method
 --- Make this window fill the whole screen its on, without covering the dock or menu.
 function window:maximize()
@@ -114,12 +114,12 @@ function window:maximize()
   self:setframe(screenrect)
 end
 
---- mj.window:screen()
+--- mjolnir.window:screen()
 --- Method
 --- Get the screen which most contains this window (by area).
 function window:screen()
   local mj_screen
-  if not pcall(function() mj_screen = require"mj.screen" end) then
+  if not pcall(function() mj_screen = require"mjolnir.screen" end) then
     error "this method requires mjolnir-screen to be installed"
   end
 
@@ -187,47 +187,47 @@ local function focus_first_valid_window(ordered_wins)
   return false
 end
 
---- mj.window:windows_to_east()
+--- mjolnir.window:windows_to_east()
 --- Method
 --- Get all windows east of this one, ordered by closeness.
 function window:windows_to_east()  return windows_in_direction(self, 0) end
 
---- mj.window:windows_to_west()
+--- mjolnir.window:windows_to_west()
 --- Method
 --- Get all windows west of this one, ordered by closeness.
 function window:windows_to_west()  return windows_in_direction(self, 2) end
 
---- mj.window:windows_to_north()
+--- mjolnir.window:windows_to_north()
 --- Method
 --- Get all windows north of this one, ordered by closeness.
 function window:windows_to_north() return windows_in_direction(self, 1) end
 
---- mj.window:windows_to_south()
+--- mjolnir.window:windows_to_south()
 --- Method
 --- Get all windows south of this one, ordered by closeness.
 function window:windows_to_south() return windows_in_direction(self, 3) end
 
---- mj.window:focuswindow_east()
+--- mjolnir.window:focuswindow_east()
 --- Method
 --- Focus the first focus-able window to the east of this one.
 function window:focuswindow_east()  return focus_first_valid_window(self:windows_to_east()) end
 
---- mj.window:focuswindow_west()
+--- mjolnir.window:focuswindow_west()
 --- Method
 --- Focus the first focus-able window to the west of this one.
 function window:focuswindow_west()  return focus_first_valid_window(self:windows_to_west()) end
 
---- mj.window:focuswindow_north()
+--- mjolnir.window:focuswindow_north()
 --- Method
 --- Focus the first focus-able window to the north of this one.
 function window:focuswindow_north() return focus_first_valid_window(self:windows_to_north()) end
 
---- mj.window:focuswindow_south()
+--- mjolnir.window:focuswindow_south()
 --- Method
 --- Focus the first focus-able window to the south of this one.
 function window:focuswindow_south() return focus_first_valid_window(self:windows_to_south()) end
 
---- mj.window:movetounit(rect)
+--- mjolnir.window:movetounit(rect)
 --- Method
 --- Moves and resizes the window to fit on the given portion of the screen.
 --- The argument is a rect with each key being between 0.0 and 1.0.

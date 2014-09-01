@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		94CA2A8019B23B64008A31A2 /* keycodes-internal.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CA2A7F19B23B64008A31A2 /* keycodes-internal.m */; };
+		94CA2A8019B23B64008A31A2 /* keycodes.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CA2A7F19B23B64008A31A2 /* keycodes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		94CA2A7819B23B54008A31A2 /* libKeycodes.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libKeycodes.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		94CA2A7F19B23B64008A31A2 /* keycodes-internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "keycodes-internal.m"; sourceTree = "<group>"; };
+		94CA2A7F19B23B64008A31A2 /* keycodes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = keycodes.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,7 +29,7 @@
 		94CA2A6F19B23B54008A31A2 = {
 			isa = PBXGroup;
 			children = (
-				94CA2A7F19B23B64008A31A2 /* keycodes-internal.m */,
+				94CA2A7F19B23B64008A31A2 /* keycodes.m */,
 				94CA2A7919B23B54008A31A2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,7 +103,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94CA2A8019B23B64008A31A2 /* keycodes-internal.m in Sources */,
+				94CA2A8019B23B64008A31A2 /* keycodes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,8 +44,8 @@ static int hotkey_new(lua_State* L) {
     
     hotkey->keycode = keycode;
     
-    // use 'mj.hotkey' metatable
-    luaL_getmetatable(L, "mj.hotkey");
+    // use 'mjolnir.hotkey' metatable
+    luaL_getmetatable(L, "mjolnir.hotkey");
     lua_setmetatable(L, -2);
     
     // store pressedfn
@@ -70,11 +70,11 @@ static int hotkey_new(lua_State* L) {
     return 1;
 }
 
-/// mj.hotkey:enable() -> self
+/// mjolnir.hotkey:enable() -> self
 /// Method
 /// Registers the hotkey's fn as the callback when the user presses key while holding mods.
 static int hotkey_enable(lua_State* L) {
-    hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
+    hotkey_t* hotkey = luaL_checkudata(L, 1, "mjolnir.hotkey");
     lua_settop(L, 1);
     
     if (hotkey->enabled)
@@ -99,18 +99,18 @@ static void stop(lua_State* L, hotkey_t* hotkey) {
     UnregisterEventHotKey(hotkey->carbonHotKey);
 }
 
-/// mj.hotkey:disable() -> self
+/// mjolnir.hotkey:disable() -> self
 /// Method
-/// Disables the given hotkey; does not remove it from mj.hotkey.keys.
+/// Disables the given hotkey; does not remove it from mjolnir.hotkey.keys.
 static int hotkey_disable(lua_State* L) {
-    hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
+    hotkey_t* hotkey = luaL_checkudata(L, 1, "mjolnir.hotkey");
     stop(L, hotkey);
     lua_pushvalue(L, 1);
     return 1;
 }
 
 static int hotkey_gc(lua_State* L) {
-    hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
+    hotkey_t* hotkey = luaL_checkudata(L, 1, "mjolnir.hotkey");
     stop(L, hotkey);
     luaL_unref(L, LUA_REGISTRYINDEX, hotkey->pressedfn);
     luaL_unref(L, LUA_REGISTRYINDEX, hotkey->releasedfn);
@@ -171,7 +171,7 @@ int luaopen_mj_hotkey_internal(lua_State* L) {
     
     // put hotkey in registry; necessary for luaL_checkudata()
     lua_pushvalue(L, -1);
-    lua_setfield(L, LUA_REGISTRYINDEX, "mj.hotkey");
+    lua_setfield(L, LUA_REGISTRYINDEX, "mjolnir.hotkey");
     
     // hotkey.__index = hotkey
     lua_pushvalue(L, -1);
