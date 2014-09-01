@@ -1,7 +1,7 @@
-package = "mjolnir.screen"
-version = "0.1-1"
+package = "mjolnir.geometry"
+version = "0.2-1"
 local url = "github.com/mjolnir-io/mjolnir-core"
-local desc = "Mjolnir module to inspect and manipulate screens (i.e. monitors)."
+local desc = "Mjolnir module to help with mathy stuff."
 source = {url = "git://" .. url}
 description = {
   summary = desc,
@@ -12,13 +12,11 @@ description = {
 supported_platforms = {"macosx"}
 dependencies = {
   "lua >= 5.2",
-  "mjolnir.fnutils",
-  "mjolnir.geometry",
 }
 build = {
   type = "builtin",
   modules = {
-    ["mjolnir.screen"] = "screen.lua",
-    ["mjolnir.screen.internal"] = "screen.m",
+    ["mjolnir.geometry"] = "geometry.lua",
+    ["mjolnir.geometry.internal"] = "geometry.m",
   },
 }
