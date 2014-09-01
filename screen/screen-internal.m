@@ -25,6 +25,7 @@ static int screen_visibleframe(lua_State* L) {
 }
 
 /// mj.screen:id(screen) -> number
+/// Method
 /// Returns a screen's unique ID.
 static int screen_id(lua_State* L) {
     NSScreen* screen = get_screen_arg(L, 1);
@@ -33,6 +34,7 @@ static int screen_id(lua_State* L) {
 }
 
 /// mj.screen:name(screen) -> string
+/// Method
 /// Returns the preferred name for the screen set by the manufacturer.
 static int screen_name(lua_State* L) {
     NSScreen* screen = get_screen_arg(L, 1);
@@ -51,6 +53,7 @@ static int screen_name(lua_State* L) {
 }
 
 /// mj.screen.settint(redarray, greenarray, bluearray)
+/// Function
 /// Set the tint on a screen; experimental.
 static int screen_settint(lua_State* L) {
     lua_len(L, 1); int red_len = lua_tonumber(L, -1);
@@ -109,6 +112,7 @@ void new_screen(lua_State* L, NSScreen* screen) {
 }
 
 /// mj.screen.allscreens() -> screen[]
+/// Function
 /// Returns all the screens there are.
 static int screen_allscreens(lua_State* L) {
     lua_newtable(L);
@@ -124,6 +128,7 @@ static int screen_allscreens(lua_State* L) {
 }
 
 /// mj.screen.mainscreen() -> screen
+/// Function
 /// Returns the 'main' screen, i.e. the one containing the currently focused window.
 static int screen_mainscreen(lua_State* L) {
     new_screen(L, [NSScreen mainScreen]);

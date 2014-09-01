@@ -71,6 +71,7 @@ static int hotkey_new(lua_State* L) {
 }
 
 /// mj.hotkey:enable() -> self
+/// Method
 /// Registers the hotkey's fn as the callback when the user presses key while holding mods.
 static int hotkey_enable(lua_State* L) {
     hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");
@@ -99,6 +100,7 @@ static void stop(lua_State* L, hotkey_t* hotkey) {
 }
 
 /// mj.hotkey:disable() -> self
+/// Method
 /// Disables the given hotkey; does not remove it from mj.hotkey.keys.
 static int hotkey_disable(lua_State* L) {
     hotkey_t* hotkey = luaL_checkudata(L, 1, "mj.hotkey");

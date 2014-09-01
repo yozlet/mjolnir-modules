@@ -30,6 +30,7 @@ static int application_gc(lua_State* L) {
 }
 
 /// mj.application.runningapplications() -> app[]
+/// Function
 /// Returns all running apps.
 static int application_runningapplications(lua_State* L) {
     lua_newtable(L);
@@ -44,6 +45,7 @@ static int application_runningapplications(lua_State* L) {
 }
 
 /// mj.application.applicationforpid(pid) -> app or nil
+/// Function
 /// Returns the running app for the given pid, if it exists.
 static int application_applicationforpid(lua_State* L) {
     pid_t pid = luaL_checknumber(L, 1);
@@ -59,6 +61,7 @@ static int application_applicationforpid(lua_State* L) {
 }
 
 /// mj.application.applicationsforbundleid(bundleid) -> app[]
+/// Function
 /// Returns any running apps that have the given bundleid.
 static int application_applicationsforbundleid(lua_State* L) {
     const char* bundleid = luaL_checkstring(L, 1);
@@ -77,6 +80,7 @@ static int application_applicationsforbundleid(lua_State* L) {
 }
 
 /// mj.application:allwindows() -> window[]
+/// Method
 /// Returns all open windows owned by the given app.
 static int application_allwindows(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -100,6 +104,7 @@ static int application_allwindows(lua_State* L) {
 }
 
 /// mj.application:mainwindow() -> window
+/// Method
 /// Returns the main window of the given app, or nil.
 static int application_mainwindow(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -166,6 +171,7 @@ static int application__bringtofront(lua_State* L) {
 }
 
 /// mj.application:title() -> string
+/// Method
 /// Returns the localized name of the app (in UTF8).
 static int application_title(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -174,6 +180,7 @@ static int application_title(lua_State* L) {
 }
 
 /// mj.application:bundleid() -> string
+/// Method
 /// Returns the bundle identifier of the app.
 static int application_bundleid(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -182,6 +189,7 @@ static int application_bundleid(lua_State* L) {
 }
 
 /// mj.application:unhide() -> success
+/// Method
 /// Unhides the app (and all its windows) if it's hidden.
 static int application_unhide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -191,6 +199,7 @@ static int application_unhide(lua_State* L) {
 }
 
 /// mj.application:hide() -> success
+/// Method
 /// Hides the app (and all its windows).
 static int application_hide(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -200,6 +209,7 @@ static int application_hide(lua_State* L) {
 }
 
 /// mj.application:kill()
+/// Method
 /// Tries to terminate the app.
 static int application_kill(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -209,6 +219,7 @@ static int application_kill(lua_State* L) {
 }
 
 /// mj.application:kill9()
+/// Method
 /// Assuredly terminates the app.
 static int application_kill9(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -218,6 +229,7 @@ static int application_kill9(lua_State* L) {
 }
 
 /// mj.application:ishidden() -> bool
+/// Method
 /// Returns whether the app is currently hidden.
 static int application_ishidden(lua_State* L) {
     AXUIElementRef app = get_app(L, 1);
@@ -233,6 +245,7 @@ static int application_ishidden(lua_State* L) {
 }
 
 /// mj.application:pid() -> number
+/// Method
 /// Returns the app's process identifier.
 static int application_pid(lua_State* L) {
     lua_pushnumber(L, pid_for_app(L, 1));
@@ -240,6 +253,7 @@ static int application_pid(lua_State* L) {
 }
 
 /// mj.application:kind() -> number
+/// Method
 /// Returns 1 if the app is in the dock, 0 if not, and -1 if it can't even have GUI elements if it wanted to.
 static int application_kind(lua_State* L) {
     NSRunningApplication* app = nsobject_for_app(L, 1);
@@ -256,6 +270,7 @@ static int application_kind(lua_State* L) {
 }
 
 /// mj.application.launchorfocus(name) -> bool
+/// Function
 /// Launches the app with the given name, or activates it if it's already running.
 /// Returns true if it launched or was already launched; otherwise false (presumably only if the app doesn't exist).
 static int application_launchorfocus(lua_State* L) {

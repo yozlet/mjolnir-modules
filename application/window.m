@@ -58,6 +58,7 @@ static AXUIElementRef system_wide_element() {
 }
 
 /// mj.window.focusedwindow() -> window
+/// Function
 /// Returns the focused window, or nil.
 static int window_focusedwindow(lua_State* L) {
     CFTypeRef app;
@@ -97,6 +98,7 @@ static BOOL set_window_prop(AXUIElementRef win, NSString* propType, id value) {
 }
 
 /// mj.window:title() -> string
+/// Method
 /// Returns the title of the window (as UTF8).
 static int window_title(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -107,6 +109,7 @@ static int window_title(lua_State* L) {
 }
 
 /// mj.window:subrole() -> string
+/// Method
 /// Returns the subrole of the window, whatever that means.
 static int window_subrole(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -118,6 +121,7 @@ static int window_subrole(lua_State* L) {
 }
 
 /// mj.window:role() -> string
+/// Method
 /// Returns the role of the window, whatever that means.
 static int window_role(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -129,6 +133,7 @@ static int window_role(lua_State* L) {
 }
 
 /// mj.window:isstandard() -> bool
+/// Method
 /// True if the window's subrole indicates it's 'a standard window'.
 static int window_isstandard(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -140,6 +145,7 @@ static int window_isstandard(lua_State* L) {
 }
 
 /// mj.window:topleft() -> point
+/// Method
 /// The top-left corner of the window in absolute coordinates.
 static int window_topleft(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -165,6 +171,7 @@ static int window_topleft(lua_State* L) {
 }
 
 /// mj.window:size() -> size
+/// Method
 /// The size of the window.
 static int window_size(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -190,6 +197,7 @@ static int window_size(lua_State* L) {
 }
 
 /// mj.window:settopleft(point)
+/// Method
 /// Moves the window to the given point in absolute coordinate.
 static int window_settopleft(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -204,6 +212,7 @@ static int window_settopleft(lua_State* L) {
 }
 
 /// mj.window:setsize(size)
+/// Method
 /// Resizes the window.
 static int window_setsize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -218,6 +227,7 @@ static int window_setsize(lua_State* L) {
 }
 
 /// mj.window:close() -> bool
+/// Method
 /// Closes the window; returns whether it succeeded.
 static int window_close(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -238,6 +248,7 @@ cleanup:
 }
 
 /// mj.window:setfullscreen(bool) -> bool
+/// Method
 /// Sets whether the window is full screen; returns whether it succeeded.
 static int window_setfullscreen(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -248,6 +259,7 @@ static int window_setfullscreen(lua_State* L) {
 }
 
 /// mj.window:isfullscreen() -> bool or nil
+/// Method
 /// Returns whether the window is full screen, or nil if asking that question fails.
 static int window_isfullscreen(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -271,6 +283,7 @@ cleanup:
 }
 
 /// mj.window:minimize()
+/// Method
 /// Minimizes the window.
 static int window_minimize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -280,6 +293,7 @@ static int window_minimize(lua_State* L) {
 }
 
 /// mj.window:unminimize()
+/// Method
 /// Un-minimizes the window.
 static int window_unminimize(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -289,6 +303,7 @@ static int window_unminimize(lua_State* L) {
 }
 
 /// mj.window:isminimized() -> bool
+/// Method
 /// True if the window is currently minimized in the dock.
 static int window_isminimized(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -315,6 +330,7 @@ static int window_pid(lua_State* L) {
 }
 
 /// mj.window:application() -> app
+/// Method
 /// Returns the app that the window belongs to; may be nil.
 static int window_application(lua_State* L) {
     if (window_pid(L)) {
@@ -328,6 +344,7 @@ static int window_application(lua_State* L) {
 }
 
 /// mj.window:becomemain() -> bool
+/// Method
 /// Make this window the main window of the given application; deos not implicitly focus the app.
 static int window_becomemain(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
@@ -355,6 +372,7 @@ static int window__orderedwinids(lua_State* L) {
 }
 
 /// mj.window:id() -> number, sometimes nil
+/// Method
 /// Returns a unique number identifying this window.
 static int window_id(lua_State* L) {
     lua_settop(L, 1);

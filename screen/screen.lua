@@ -13,6 +13,7 @@ local fnutils = require "mj.fnutils"
 local geometry = require "mj.geometry"
 
 --- mj.screen:fullframe() -> rect
+--- Method
 --- Returns the screen's rect in absolute coordinates, including the dock and menu.
 function screen:fullframe()
   local primary_screen = screen.allscreens()[1]
@@ -22,6 +23,7 @@ function screen:fullframe()
 end
 
 --- mj.screen:frame() -> rect
+--- Method
 --- Returns the screen's rect in absolute coordinates, without the dock or menu.
 function screen:frame()
   local primary_screen = screen.allscreens()[1]
@@ -31,6 +33,7 @@ function screen:frame()
 end
 
 --- mj.screen:next() -> screen
+--- Method
 --- Returns the screen 'after' this one (I have no idea how they're ordered though); this method wraps around to the first screen.
 function screen:next()
   local screens = screen.allscreens()
@@ -40,6 +43,7 @@ function screen:next()
 end
 
 --- mj.screen:previous() -> screen
+--- Method
 --- Returns the screen 'before' this one (I have no idea how they're ordered though); this method wraps around to the last screen.
 function screen:previous()
   local screens = screen.allscreens()
@@ -93,18 +97,22 @@ local function first_screen_in_direction(screen, numrotations)
 end
 
 --- mj.screen:toeast()
+--- Method
 --- Get the first screen to the east of this one, ordered by proximity.
 function screen:toeast()  return first_screen_in_direction(self, 0) end
 
 --- mj.screen:towest()
+--- Method
 --- Get the first screen to the west of this one, ordered by proximity.
 function screen:towest()  return first_screen_in_direction(self, 2) end
 
 --- mj.screen:tonorth()
+--- Method
 --- Get the first screen to the north of this one, ordered by proximity.
 function screen:tonorth() return first_screen_in_direction(self, 1) end
 
 --- mj.screen:tosouth()
+--- Method
 --- Get the first screen to the south of this one, ordered by proximity.
 function screen:tosouth() return first_screen_in_direction(self, 3) end
 

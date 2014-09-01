@@ -5,6 +5,7 @@
 local hotkey = require "mj.hotkey.internal"
 
 --- mj.hotkey.new(mods, key, pressedfn, releasedfn = nil) -> hotkey
+--- Constructor
 --- Creates a new hotkey that can be enabled.
 ---
 --- The `mods` parameter is case-insensitive and may contain any of the following strings: "cmd", "ctrl", "alt", or "shift".
@@ -36,6 +37,7 @@ function hotkey.new(mods, key, pressedfn, releasedfn)
 end
 
 --- mj.hotkey.bind(mods, key, pressedfn, releasedfn) -> hotkey
+--- Constructor
 --- Shortcut for: return mj.hotkey.new(mods, key, pressedfn, releasedfn):enable()
 function hotkey.bind(...)
   return hotkey.new(...):enable()

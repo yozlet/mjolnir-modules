@@ -26,6 +26,7 @@ static void geom_pushrect(lua_State* L, NSRect rect) {
 }
 
 /// mj.geometry.intersectionrect(rect1, rect2) -> rect3
+/// Function
 /// Returns the intersection of two rects as a new rect.
 static int geometry_intersectionrect(lua_State* L) {
     NSRect r1 = geom_torect(L, 1);
@@ -35,6 +36,7 @@ static int geometry_intersectionrect(lua_State* L) {
 }
 
 /// mj.geometry.rectmidpoint(rect) -> point
+/// Function
 /// Returns the midpoint of a rect.
 static int geometry_rectmidpoint(lua_State* L) {
     NSRect r = geom_torect(L, 1);

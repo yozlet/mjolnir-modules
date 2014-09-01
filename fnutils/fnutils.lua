@@ -6,6 +6,7 @@ local fnutils = {}
 
 
 --- mj.fnutils.map(t, fn) -> t
+--- Function
 --- Returns a table of the results of fn(el) on every el in t.
 function fnutils.map(t, fn)
   local nt = {}
@@ -16,6 +17,7 @@ function fnutils.map(t, fn)
 end
 
 --- mj.fnutils.each(t, fn) -> t
+--- Function
 --- Runs fn(el) for every el in t.
 function fnutils.each(t, fn)
   for k, v in pairs(t) do
@@ -24,6 +26,7 @@ function fnutils.each(t, fn)
 end
 
 --- mj.fnutils.filter(t, fn) -> t
+--- Function
 --- Returns a table of the elements in t in which fn(el) is truthy.
 function fnutils.filter(t, fn)
   local nt = {}
@@ -34,6 +37,7 @@ function fnutils.filter(t, fn)
 end
 
 --- mj.fnutils.copy(t) -> t2
+--- Function
 --- Returns a new copy of t using pairs(t).
 function fnutils.copy(t)
   local nt = {}
@@ -44,6 +48,7 @@ function fnutils.copy(t)
 end
 
 --- mj.fnutils.contains(t, el) -> bool
+--- Function
 --- Returns whether the table contains the given element.
 function fnutils.contains(t, el)
   for k, v in pairs(t) do
@@ -55,6 +60,7 @@ function fnutils.contains(t, el)
 end
 
 --- mj.fnutils.indexof(t, el) -> int or nil
+--- Function
 --- Returns the index of a given element in a table, or nil if not found.
 function fnutils.indexof(t, el)
   for k, v in pairs(t) do
@@ -66,6 +72,7 @@ function fnutils.indexof(t, el)
 end
 
 --- mj.fnutils.concat(t1, t2)
+--- Function
 --- Adds all elements of t2 to the end of t1.
 function fnutils.concat(t1, t2)
   for i = 1, #t2 do
@@ -75,6 +82,7 @@ function fnutils.concat(t1, t2)
 end
 
 --- mj.fnutils.mapcat(t, fn) -> t2
+--- Function
 --- Runs fn(el) for every el in t, and assuming the results are tables, combines them into a new table.
 function fnutils.mapcat(t, fn)
   local nt = {}
@@ -85,6 +93,7 @@ function fnutils.mapcat(t, fn)
 end
 
 --- mj.fnutils.reduce(t, fn) -> t2
+--- Function
 --- Runs fn(el1, el2) for every el in t, then fn(result, el3), etc, until there's only one left.
 function fnutils.reduce(t, fn)
   local len = #t
@@ -99,6 +108,7 @@ function fnutils.reduce(t, fn)
 end
 
 --- mj.fnutils.find(t, fn) -> el
+--- Function
 --- Returns the first element where fn(el) is truthy.
 function fnutils.find(t, fn)
   for _, v in pairs(t) do
@@ -108,6 +118,7 @@ function fnutils.find(t, fn)
 end
 
 --- mj.fnutils.sequence(...) -> fn
+--- Function
 --- Returns a list of the results of the passed functions.
 function fnutils.sequence(...)
   local arg = table.pack(...)
@@ -121,6 +132,7 @@ function fnutils.sequence(...)
 end
 
 --- mj.fnutils.partial(fn, ...) -> fn'
+--- Function
 --- Returns fn partially applied to arg (...).
 function fnutils.partial(fn, ...)
   local args = table.pack(...)
@@ -133,6 +145,7 @@ function fnutils.partial(fn, ...)
 end
 
 --- mj.fnutils.cycle(t) -> fn() -> t[n]
+--- Function
 --- Returns a function that returns t[1], t[2], ... t[#t], t[1], ... on successive calls.
 --- Example:
 ---     f = cycle({4, 5, 6})

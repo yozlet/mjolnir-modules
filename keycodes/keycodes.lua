@@ -2,6 +2,7 @@
 --- Functionality for converting between key-strings and key-codes.
 
 --- mj.keycodes.map = {...}
+--- Variable
 --- A mapping from string representation of a key to its keycode, and vice versa.
 --- For example: keycodes[1] == "s", and keycodes["s"] == 1, and so on.
 --- This is primarily used by the mj.eventtap and mj.hotkey extensions.
@@ -18,8 +19,10 @@ local keycodes = require "mj.keycodes.internal"
 keycodes.map = keycodes._cachemap()
 
 --- mj.keycodes.inputsourcechanged(fn())
+--- Function
 --- Sets the function to be called when your input source (i.e. qwerty, dvorak, colemac) changes.
 --- You can use this to rebind your hotkeys or whatever.
+--- Note: setting this will un-set functions previously registered by this function.
 function keycodes.inputsourcechanged(fn)
   if keycodes._callback then keycodes._callback:_stop() end
   keycodes._callback = keycodes._newcallback(function()
