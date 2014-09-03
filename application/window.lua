@@ -10,7 +10,7 @@
 ---
 --- It may be handy to get a window's app or screen via `mjolnir.window.application` and `mjolnir.window.screen`.
 ---
---- See the `screen` module for detailed explanation of how Hydra uses window/screen coordinates.
+--- See the `screen` module for detailed explanation of how Mjolnir uses window/screen coordinates.
 
 local window = require "mjolnir.window.internal"
 local application = require "mjolnir.application.internal"
