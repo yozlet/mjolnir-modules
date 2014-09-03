@@ -206,9 +206,9 @@ static int window_size(lua_State* L) {
 }
 
 
-/// mjolnir.window:settopleft(point)
+/// mjolnir.window:transform(point,size)
 /// Method
-/// Moves the window to the given point in absolute coordinate.
+/// Kicks off an animated transformation that combines a setsize with a settopleft.
 static int window_transform(lua_State* L) {
     AXUIElementRef win = get_window_arg(L, 1);
     CGPoint thePoint = geom_topoint(L, 2);
