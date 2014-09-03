@@ -2,6 +2,7 @@
 #import <lauxlib.h>
 #import "window.h"
 #import "application.h"
+#import "MJAnimation.m"
 
 extern AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 
@@ -144,12 +145,7 @@ static int window_isstandard(lua_State* L) {
     return 1;
 }
 
-/// mjolnir.window:topleft() -> point
-/// Method
-/// The top-left corner of the window in absolute coordinates.
-static int window_topleft(lua_State* L) {
-    AXUIElementRef win = get_window_arg(L, 1);
-    
+CGPoint get_window_topleft(AXUIElementRef win) {
     CFTypeRef positionStorage;
     AXError result = AXUIElementCopyAttributeValue(win, (CFStringRef)NSAccessibilityPositionAttribute, &positionStorage);
     
@@ -162,20 +158,23 @@ static int window_topleft(lua_State* L) {
     else {
         topLeft = CGPointZero;
     }
-    
-    if (positionStorage)
-        CFRelease(positionStorage);
-    
+  
+    if (positionStorage) CFRelease(positionStorage);
+
+    return topLeft;
+}
+
+/// mjolnir.window:topleft() -> point
+/// Method
+/// The top-left corner of the window in absolute coordinates.
+static int window_topleft(lua_State* L) {
+    AXUIElementRef win = get_window_arg(L, 1);
+    CGPoint topLeft = get_window_topleft(win);
     geom_pushpoint(L, topLeft);
     return 1;
 }
 
-/// mjolnir.window:size() -> size
-/// Method
-/// The size of the window.
-static int window_size(lua_State* L) {
-    AXUIElementRef win = get_window_arg(L, 1);
-    
+CGSize get_window_size(AXUIElementRef win) {
     CFTypeRef sizeStorage;
     AXError result = AXUIElementCopyAttributeValue(win, (CFStringRef)NSAccessibilitySizeAttribute, &sizeStorage);
     
@@ -191,10 +190,43 @@ static int window_size(lua_State* L) {
     
     if (sizeStorage)
         CFRelease(sizeStorage);
-    
+  
+    return size;
+}
+
+
+/// mjolnir.window:size() -> size
+/// Method
+/// The size of the window.
+static int window_size(lua_State* L) {
+    AXUIElementRef win = get_window_arg(L, 1);
+    CGSize size = get_window_size(win);
     geom_pushsize(L, size);
     return 1;
 }
+
+
+/// mjolnir.window:settopleft(point)
+/// Method
+/// Moves the window to the given point in absolute coordinate.
+static int window_transform(lua_State* L) {
+    AXUIElementRef win = get_window_arg(L, 1);
+    CGPoint thePoint = geom_topoint(L, 2);
+    CGSize theSize = geom_tosize(L, 3);
+    MJAnimation *anim = [[MJAnimation alloc] initWithDuration:0.5
+                                               animationCurve:NSAnimationEaseInOut];
+    CGPoint oldTopLeft = get_window_topleft(win);
+    CGSize oldSize = get_window_size(win);
+    [anim setOldTopLeft:oldTopLeft];
+    [anim setNewTopLeft:thePoint];
+    [anim setOldSize:oldSize];
+    [anim setNewSize:theSize];
+    [anim setWindow:win];
+    [anim setAnimationBlockingMode:NSAnimationNonblocking];
+    [anim startAnimation];
+    return 0;
+}
+
 
 /// mjolnir.window:settopleft(point)
 /// Method
@@ -377,26 +409,26 @@ static int window__orderedwinids(lua_State* L) {
 static int window_id(lua_State* L) {
     lua_settop(L, 1);
     AXUIElementRef win = get_window_arg(L, 1);
-    
+
     lua_getuservalue(L, 1);
-    
+
     lua_getfield(L, -1, "id");
     if (lua_isnumber(L, -1))
         return 1;
     else
         lua_pop(L, 1);
-    
+
     CGWindowID winid;
     AXError err = _AXUIElementGetWindow(win, &winid);
     if (err) {
         lua_pushnil(L);
         return 1;
     }
-    
+
     // cache it
     lua_pushnumber(L, winid);
     lua_setfield(L, -2, "id");
-    
+
     lua_pushnumber(L, winid);
     return 1;
 }
@@ -404,7 +436,7 @@ static int window_id(lua_State* L) {
 static const luaL_Reg windowlib[] = {
     {"focusedwindow", window_focusedwindow},
     {"_orderedwinids", window__orderedwinids},
-    
+
     {"title", window_title},
     {"subrole", window_subrole},
     {"role", window_role},
@@ -423,24 +455,25 @@ static const luaL_Reg windowlib[] = {
     {"close", window_close},
     {"setfullscreen", window_setfullscreen},
     {"isfullscreen", window_isfullscreen},
-    
+    {"transform", window_transform},
+
     {}
 };
 
 int luaopen_mjolnir_window_internal(lua_State* L) {
     luaL_newlib(L, windowlib);
-    
+
     if (luaL_newmetatable(L, "mjolnir.window")) {
         lua_pushvalue(L, -2);
         lua_setfield(L, -2, "__index");
-        
+
         lua_pushcfunction(L, window_gc);
         lua_setfield(L, -2, "__gc");
-        
+
         lua_pushcfunction(L, window_eq);
         lua_setfield(L, -2, "__eq");
     }
     lua_pop(L, 1);
-    
+
     return 1;
 }
