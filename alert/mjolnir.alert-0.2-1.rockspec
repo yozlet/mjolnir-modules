@@ -1,5 +1,5 @@
 package = "mjolnir.alert"
-version = "0.1-1"
+version = "0.2-1"
 local url = "github.com/mjolnir-io/mjolnir-modules"
 local desc = "Mjolnir module to show brief messages on-screen."
 source = {url = "git://" .. url}
