@@ -1,5 +1,5 @@
 package = "mjolnir.hotkey"
-version = "0.2-1"
+version = "0.3-1"
 local url = "github.com/mjolnir-io/mjolnir-modules"
 local desc = "Mjolnir module to create and manage global hotkeys."
 source = {url = "git://" .. url}
