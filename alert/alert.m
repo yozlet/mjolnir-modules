@@ -21,10 +21,8 @@ static NSMutableArray* visibleAlerts;
 @implementation MJAlert
 
 void MJShowAlert(NSString* oneLineMsg, CGFloat duration) {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    if (!visibleAlerts)
         visibleAlerts = [[NSMutableArray array] retain];
-    });
     
     CGFloat absoluteTop;
     
@@ -155,6 +153,12 @@ void MJShowAlert(NSString* oneLineMsg, CGFloat duration) {
 	[[self window] setFrame:windowFrame display:YES];
 }
 
+- (void) emergencyCancel {
+    [[self class] cancelPreviousPerformRequestsWithTarget:self];
+    [[self window] orderOut:nil];
+    [self release];
+}
+
 @end
 
 /// mjolnir.alert.show(str, seconds = 2)
@@ -172,12 +176,31 @@ static int alert_show(lua_State* L) {
     return 0;
 }
 
+static int alert_gc(lua_State* L) {
+    for (MJAlert* alert in visibleAlerts)
+        [alert emergencyCancel];
+    
+    [visibleAlerts release];
+    visibleAlerts = nil;
+    
+    return 0;
+}
+
 static const luaL_Reg alertlib[] = {
     {"show", alert_show},
     {}
 };
 
+static const luaL_Reg metalib[] = {
+    {"__gc", alert_gc},
+    {}
+};
+
 int luaopen_mjolnir_alert(lua_State* L) {
     luaL_newlib(L, alertlib);
+    
+    luaL_newlib(L, metalib);
+    lua_setmetatable(L, -2);
+    
     return 1;
 }
