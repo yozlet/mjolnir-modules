@@ -1,0 +1,13 @@
+- spaces (10.9)
+- spaces (10.10)
+- accessibility
+- fuzzy matcher
+- events
+- templating
+- jhgg.backlight
+- wlan
+- gui for hotkeys
+- webview
+- user notifications
+- arbitrary drawing
+- find image on screen
